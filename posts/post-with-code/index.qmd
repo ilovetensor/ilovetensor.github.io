@@ -8,8 +8,7 @@ format:
     toc: true
     mermaid: 
       theme: 
-        light: default
-        dark: neutral
+        default
     
 title: Neural Networks From Scratch -- ML practitioner's guide
 jupyter: python3

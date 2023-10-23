@@ -5,8 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="717199ef-3a38-4917-83c3-a243b9b688f6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_quarto.yml" beforeDir="false" afterPath="$PROJECT_DIR$/_quarto.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/listings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/image.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/img_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/img_nn.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/index_files/figure-html/fig-limit-output-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posts/welcome/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posts/welcome/thumbnail.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/search.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-diagram/mermaid-init.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-diagram/mermaid.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-diagram/mermaid.min.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/posts/post-with-code/index.qmd" beforeDir="false" afterPath="$PROJECT_DIR$/posts/post-with-code/index.qmd" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +79,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1698080363526</updated>
-      <workItem from="1698080366597" duration="7596000" />
+      <workItem from="1698080366597" duration="7910000" />
     </task>
     <servers />
   </component>

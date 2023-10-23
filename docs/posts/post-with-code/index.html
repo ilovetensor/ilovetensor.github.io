@@ -71,10 +71,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -131,17 +133,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Rohan Sharma</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/ilovetensor" rel="" target=""><i class="bi bi-github" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/rohanshar11" rel="" target=""><i class="bi bi-twitter" role="img">
 </i> 
  <span class="menu-text"></span></a>
   </li>  
 </ul>
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
@@ -736,6 +739,121 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1009,504 +1127,505 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
 <span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
 <span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="co">    mermaid: </span></span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co">      theme: default</span></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Neural Networks From Scratch -- ML practitioner's guide</span></span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> ['Deep Learning', 'Neural Networks', 'Pytorch']</span></span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a><span class="al">![](img_nn.png)</span></span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>An ideal read for ML practitioners venturing into Neural Networks for the first time. A basic tutorial of implementing </span>
-<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>Neural Networks from scratch, bridging the gap between the reader's ML knowledge and the Neural Network concepts. </span>
-<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a> The time is ripe to enhance your ML expertise!</span>
-<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co">      theme: </span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co">        default</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> Neural Networks From Scratch -- ML practitioner's guide</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> ['Deep Learning', 'Neural Networks', 'Pytorch']</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a><span class="al">![](img_nn.png)</span></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>An ideal read for ML practitioners venturing into Neural Networks for the first time. A basic tutorial of implementing </span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>Neural Networks from scratch, bridging the gap between the reader's ML knowledge and the Neural Network concepts. </span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a> The time is ripe to enhance your ML expertise!</span>
 <span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>A few days back I started learning Neural Networks, before that I had a basic knowledge of Machine Learning. </span>
-<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>So, I think this is the best time to write this article for those who know ML and are hoping to start learning Neural Networks. I have found these techniques useful to learn NN from the mind of a person who knows ML priorly.</span>
-<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>I have explained the concepts in a way that you can relate them with the concepts of ML and it will be a very quick journey for you to learn these concepts quickly and easily. </span>
-<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>This post will guide you through implementing a basic neurons, then combining those neurons to form layers and finally combining layers to make Neural Networks. </span>
-<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a><span class="fu"># Let's get Started ! 🏁</span></span>
-<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a>To start this awesome journey, let's first quickly revise some concepts of ML... this is the time to recall them and prepare your mind to get started. </span>
-<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a><span class="fu">### ML recall  💡</span></span>
-<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a>The only concept that you need to remember to get this article in your is of **Linear Regression!**. </span>
-<span id="cb33-39"><a href="#cb33-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-40"><a href="#cb33-40" aria-hidden="true" tabindex="-1"></a>Here are the steps that we follow in Linear Regression : </span>
-<span id="cb33-41"><a href="#cb33-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>A few days back I started learning Neural Networks, before that I had a basic knowledge of Machine Learning. </span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>So, I think this is the best time to write this article for those who know ML and are hoping to start learning Neural Networks. I have found these techniques useful to learn NN from the mind of a person who knows ML priorly.</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>I have explained the concepts in a way that you can relate them with the concepts of ML and it will be a very quick journey for you to learn these concepts quickly and easily. </span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>This post will guide you through implementing a basic neurons, then combining those neurons to form layers and finally combining layers to make Neural Networks. </span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a><span class="fu"># Let's get Started ! 🏁</span></span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a>To start this awesome journey, let's first quickly revise some concepts of ML... this is the time to recall them and prepare your mind to get started. </span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a><span class="fu">### ML recall  💡</span></span>
+<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-39"><a href="#cb33-39" aria-hidden="true" tabindex="-1"></a>The only concept that you need to remember to get this article in your is of **Linear Regression!**. </span>
+<span id="cb33-40"><a href="#cb33-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-41"><a href="#cb33-41" aria-hidden="true" tabindex="-1"></a>Here are the steps that we follow in Linear Regression : </span>
 <span id="cb33-42"><a href="#cb33-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-43"><a href="#cb33-43" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Get a tabular that we want to train.</span>
-<span id="cb33-44"><a href="#cb33-44" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Saperate the data in two parts, *Independent* and *Dependent Variables*. </span>
-<span id="cb33-45"><a href="#cb33-45" aria-hidden="true" tabindex="-1"></a>   $$<span class="co">[</span><span class="ot">x_1^1, x_2^1, x_3^1, x_4^1, x_5^1...</span><span class="co">]</span> , <span class="co">[</span><span class="ot">y_1</span><span class="co">]</span>$$</span>
-<span id="cb33-46"><a href="#cb33-46" aria-hidden="true" tabindex="-1"></a>   $$<span class="co">[</span><span class="ot">x_1^2, x_2^2, x_3^2, x_4^2, x_5^2...</span><span class="co">]</span> , <span class="co">[</span><span class="ot">y_2</span><span class="co">]</span>$$</span>
-<span id="cb33-47"><a href="#cb33-47" aria-hidden="true" tabindex="-1"></a>   $$<span class="co">[</span><span class="ot">x_1^3, x_2^3, x_3^3, x_4^3, x_5^3...</span><span class="co">]</span> , <span class="co">[</span><span class="ot">y_3</span><span class="co">]</span>$$</span>
-<span id="cb33-48"><a href="#cb33-48" aria-hidden="true" tabindex="-1"></a>   $$.....$$</span>
-<span id="cb33-49"><a href="#cb33-49" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb33-50"><a href="#cb33-50" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The equation to fit the line is ..</span>
-<span id="cb33-51"><a href="#cb33-51" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb33-52"><a href="#cb33-52" aria-hidden="true" tabindex="-1"></a>   $$y = mX + b$$</span>
-<span id="cb33-53"><a href="#cb33-53" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Loss Function used can be root mean square error...</span>
-<span id="cb33-54"><a href="#cb33-54" aria-hidden="true" tabindex="-1"></a>   $$RMSE = \sum_{i=1}^{D}(y_i-(mX_i + b))^2$$</span>
-<span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Now we find a best-fit line that fits the data with minimum loss. We do this with the help of gradient descent (reducing the loss in every step by modifying the weights)</span>
-<span id="cb33-56"><a href="#cb33-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-59"><a href="#cb33-59" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-60"><a href="#cb33-60" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb33-61"><a href="#cb33-61" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb33-62"><a href="#cb33-62" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb33-63"><a href="#cb33-63" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb33-64"><a href="#cb33-64" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
-<span id="cb33-65"><a href="#cb33-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-66"><a href="#cb33-66" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">30</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb33-67"><a href="#cb33-67" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> (<span class="dv">2</span><span class="op">*</span>x <span class="op">+</span> <span class="dv">3</span> <span class="op">+</span> np.random.rand(<span class="op">*</span>x.shape)<span class="op">*</span><span class="dv">10</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
-<span id="cb33-68"><a href="#cb33-68" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-69"><a href="#cb33-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-72"><a href="#cb33-72" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-73"><a href="#cb33-73" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb33-74"><a href="#cb33-74" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-limit</span></span>
-<span id="cb33-75"><a href="#cb33-75" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: linear regression</span></span>
-<span id="cb33-76"><a href="#cb33-76" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>,<span class="dv">4</span>))</span>
-<span id="cb33-77"><a href="#cb33-77" aria-hidden="true" tabindex="-1"></a>plt.scatter(x,y, label<span class="op">=</span><span class="st">'data points'</span>)</span>
-<span id="cb33-78"><a href="#cb33-78" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="cb33-79"><a href="#cb33-79" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> LinearRegression().fit(x,y).predict(x)</span>
-<span id="cb33-80"><a href="#cb33-80" aria-hidden="true" tabindex="-1"></a>plt.plot(x,pred, color<span class="op">=</span><span class="st">'orange'</span>, linewidth<span class="op">=</span><span class="dv">5</span>, label<span class="op">=</span><span class="st">'best-fit'</span>)</span>
-<span id="cb33-81"><a href="#cb33-81" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.legend()</span></span>
-<span id="cb33-82"><a href="#cb33-82" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb33-83"><a href="#cb33-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-84"><a href="#cb33-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-85"><a href="#cb33-85" aria-hidden="true" tabindex="-1"></a>And so, this is all you need to know to get started ! So, now lets dive deep into implementation of NN from scratch. </span>
-<span id="cb33-86"><a href="#cb33-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-87"><a href="#cb33-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## Know some Tensors 🍃</span></span>
-<span id="cb33-88"><a href="#cb33-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-89"><a href="#cb33-89" aria-hidden="true" tabindex="-1"></a>Tensors are a fundamental data structure, very similar to arrays and matrices.</span>
-<span id="cb33-90"><a href="#cb33-90" aria-hidden="true" tabindex="-1"></a>A tensor can be represented as a matrix, but also as a vector, a scalar, or a higher-dimensional array. </span>
-<span id="cb33-91"><a href="#cb33-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-94"><a href="#cb33-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-95"><a href="#cb33-95" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch <span class="im">import</span> tensor</span>
-<span id="cb33-96"><a href="#cb33-96" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-97"><a href="#cb33-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-100"><a href="#cb33-100" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-101"><a href="#cb33-101" aria-hidden="true" tabindex="-1"></a>np_array <span class="op">=</span> np.array([[<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">2</span>],[<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">3</span>]])</span>
-<span id="cb33-102"><a href="#cb33-102" aria-hidden="true" tabindex="-1"></a>one_d <span class="op">=</span> tensor([<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>])</span>
-<span id="cb33-103"><a href="#cb33-103" aria-hidden="true" tabindex="-1"></a>two_d <span class="op">=</span> tensor(np_array)</span>
-<span id="cb33-104"><a href="#cb33-104" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(one_d)<span class="op">;</span> <span class="bu">print</span>(two_d)<span class="op">;</span></span>
-<span id="cb33-105"><a href="#cb33-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-106"><a href="#cb33-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-107"><a href="#cb33-107" aria-hidden="true" tabindex="-1"></a><span class="in">`tensor`</span> are just like <span class="in">`numpy arrays`</span> and so, there is not much to think about them, lets get to the next **big** thing...</span>
-<span id="cb33-108"><a href="#cb33-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-109"><a href="#cb33-109" aria-hidden="true" tabindex="-1"></a><span class="fu"># Designing your first neuron ⚛️</span></span>
-<span id="cb33-110"><a href="#cb33-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-111"><a href="#cb33-111" aria-hidden="true" tabindex="-1"></a>A **single neuron (or perceptron)** is the basic unit of a neural network... </span>
-<span id="cb33-112"><a href="#cb33-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-113"><a href="#cb33-113" aria-hidden="true" tabindex="-1"></a>It takes <span class="kw">&lt;u&gt;</span>*input*&lt;/u&gt; as &lt;u&gt;*dependent variables*&lt;/u&gt;, multiplies it with the &lt;u&gt;*weights*&lt;/u&gt;, adds the &lt;u&gt;*bais*&lt;/u&gt; , goes through an &lt;u&gt;*activation function*&lt;/u&gt;, and produces the &lt;u&gt;*output*<span class="kw">&lt;/u&gt;</span>. </span>
-<span id="cb33-114"><a href="#cb33-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-115"><a href="#cb33-115" aria-hidden="true" tabindex="-1"></a>I know what you are thinking now 👀... </span>
-<span id="cb33-116"><a href="#cb33-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-117"><a href="#cb33-117" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Huh! It looks the same as Linear Regression Model !!</span>
-<span id="cb33-118"><a href="#cb33-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-119"><a href="#cb33-119" aria-hidden="true" tabindex="-1"></a>    😌 Yes, it is just another Linear Regression .. </span>
-<span id="cb33-120"><a href="#cb33-120" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Then what is that *activation function*?</span>
-<span id="cb33-121"><a href="#cb33-121" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb33-122"><a href="#cb33-122" aria-hidden="true" tabindex="-1"></a>    😌 This is something you will get to know in the near future.</span>
-<span id="cb33-123"><a href="#cb33-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-124"><a href="#cb33-124" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Should I relax?</span>
-<span id="cb33-125"><a href="#cb33-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-126"><a href="#cb33-126" aria-hidden="true" tabindex="-1"></a>   😌 Absolutely NOT !!</span>
-<span id="cb33-127"><a href="#cb33-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-43"><a href="#cb33-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-44"><a href="#cb33-44" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Get a tabular that we want to train.</span>
+<span id="cb33-45"><a href="#cb33-45" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Saperate the data in two parts, *Independent* and *Dependent Variables*. </span>
+<span id="cb33-46"><a href="#cb33-46" aria-hidden="true" tabindex="-1"></a>   $$<span class="co">[</span><span class="ot">x_1^1, x_2^1, x_3^1, x_4^1, x_5^1...</span><span class="co">]</span> , <span class="co">[</span><span class="ot">y_1</span><span class="co">]</span>$$</span>
+<span id="cb33-47"><a href="#cb33-47" aria-hidden="true" tabindex="-1"></a>   $$<span class="co">[</span><span class="ot">x_1^2, x_2^2, x_3^2, x_4^2, x_5^2...</span><span class="co">]</span> , <span class="co">[</span><span class="ot">y_2</span><span class="co">]</span>$$</span>
+<span id="cb33-48"><a href="#cb33-48" aria-hidden="true" tabindex="-1"></a>   $$<span class="co">[</span><span class="ot">x_1^3, x_2^3, x_3^3, x_4^3, x_5^3...</span><span class="co">]</span> , <span class="co">[</span><span class="ot">y_3</span><span class="co">]</span>$$</span>
+<span id="cb33-49"><a href="#cb33-49" aria-hidden="true" tabindex="-1"></a>   $$.....$$</span>
+<span id="cb33-50"><a href="#cb33-50" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb33-51"><a href="#cb33-51" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>The equation to fit the line is ..</span>
+<span id="cb33-52"><a href="#cb33-52" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb33-53"><a href="#cb33-53" aria-hidden="true" tabindex="-1"></a>   $$y = mX + b$$</span>
+<span id="cb33-54"><a href="#cb33-54" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Loss Function used can be root mean square error...</span>
+<span id="cb33-55"><a href="#cb33-55" aria-hidden="true" tabindex="-1"></a>   $$RMSE = \sum_{i=1}^{D}(y_i-(mX_i + b))^2$$</span>
+<span id="cb33-56"><a href="#cb33-56" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Now we find a best-fit line that fits the data with minimum loss. We do this with the help of gradient descent (reducing the loss in every step by modifying the weights)</span>
+<span id="cb33-57"><a href="#cb33-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-60"><a href="#cb33-60" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-61"><a href="#cb33-61" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb33-62"><a href="#cb33-62" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb33-63"><a href="#cb33-63" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb33-64"><a href="#cb33-64" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb33-65"><a href="#cb33-65" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb33-66"><a href="#cb33-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-67"><a href="#cb33-67" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>,<span class="dv">10</span>,<span class="dv">30</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb33-68"><a href="#cb33-68" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> (<span class="dv">2</span><span class="op">*</span>x <span class="op">+</span> <span class="dv">3</span> <span class="op">+</span> np.random.rand(<span class="op">*</span>x.shape)<span class="op">*</span><span class="dv">10</span>).reshape(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb33-69"><a href="#cb33-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-70"><a href="#cb33-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-73"><a href="#cb33-73" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-74"><a href="#cb33-74" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb33-75"><a href="#cb33-75" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: fig-limit</span></span>
+<span id="cb33-76"><a href="#cb33-76" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: linear regression</span></span>
+<span id="cb33-77"><a href="#cb33-77" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>,<span class="dv">4</span>))</span>
+<span id="cb33-78"><a href="#cb33-78" aria-hidden="true" tabindex="-1"></a>plt.scatter(x,y, label<span class="op">=</span><span class="st">'data points'</span>)</span>
+<span id="cb33-79"><a href="#cb33-79" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb33-80"><a href="#cb33-80" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> LinearRegression().fit(x,y).predict(x)</span>
+<span id="cb33-81"><a href="#cb33-81" aria-hidden="true" tabindex="-1"></a>plt.plot(x,pred, color<span class="op">=</span><span class="st">'orange'</span>, linewidth<span class="op">=</span><span class="dv">5</span>, label<span class="op">=</span><span class="st">'best-fit'</span>)</span>
+<span id="cb33-82"><a href="#cb33-82" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.legend()</span></span>
+<span id="cb33-83"><a href="#cb33-83" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb33-84"><a href="#cb33-84" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-85"><a href="#cb33-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-86"><a href="#cb33-86" aria-hidden="true" tabindex="-1"></a>And so, this is all you need to know to get started ! So, now lets dive deep into implementation of NN from scratch. </span>
+<span id="cb33-87"><a href="#cb33-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-88"><a href="#cb33-88" aria-hidden="true" tabindex="-1"></a><span class="fu">## Know some Tensors 🍃</span></span>
+<span id="cb33-89"><a href="#cb33-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-90"><a href="#cb33-90" aria-hidden="true" tabindex="-1"></a>Tensors are a fundamental data structure, very similar to arrays and matrices.</span>
+<span id="cb33-91"><a href="#cb33-91" aria-hidden="true" tabindex="-1"></a>A tensor can be represented as a matrix, but also as a vector, a scalar, or a higher-dimensional array. </span>
+<span id="cb33-92"><a href="#cb33-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-95"><a href="#cb33-95" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-96"><a href="#cb33-96" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch <span class="im">import</span> tensor</span>
+<span id="cb33-97"><a href="#cb33-97" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-98"><a href="#cb33-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-101"><a href="#cb33-101" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-102"><a href="#cb33-102" aria-hidden="true" tabindex="-1"></a>np_array <span class="op">=</span> np.array([[<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">2</span>],[<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">3</span>]])</span>
+<span id="cb33-103"><a href="#cb33-103" aria-hidden="true" tabindex="-1"></a>one_d <span class="op">=</span> tensor([<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>])</span>
+<span id="cb33-104"><a href="#cb33-104" aria-hidden="true" tabindex="-1"></a>two_d <span class="op">=</span> tensor(np_array)</span>
+<span id="cb33-105"><a href="#cb33-105" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(one_d)<span class="op">;</span> <span class="bu">print</span>(two_d)<span class="op">;</span></span>
+<span id="cb33-106"><a href="#cb33-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-107"><a href="#cb33-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-108"><a href="#cb33-108" aria-hidden="true" tabindex="-1"></a><span class="in">`tensor`</span> are just like <span class="in">`numpy arrays`</span> and so, there is not much to think about them, lets get to the next **big** thing...</span>
+<span id="cb33-109"><a href="#cb33-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-110"><a href="#cb33-110" aria-hidden="true" tabindex="-1"></a><span class="fu"># Designing your first neuron ⚛️</span></span>
+<span id="cb33-111"><a href="#cb33-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-112"><a href="#cb33-112" aria-hidden="true" tabindex="-1"></a>A **single neuron (or perceptron)** is the basic unit of a neural network... </span>
+<span id="cb33-113"><a href="#cb33-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-114"><a href="#cb33-114" aria-hidden="true" tabindex="-1"></a>It takes <span class="kw">&lt;u&gt;</span>*input*&lt;/u&gt; as &lt;u&gt;*dependent variables*&lt;/u&gt;, multiplies it with the &lt;u&gt;*weights*&lt;/u&gt;, adds the &lt;u&gt;*bais*&lt;/u&gt; , goes through an &lt;u&gt;*activation function*&lt;/u&gt;, and produces the &lt;u&gt;*output*<span class="kw">&lt;/u&gt;</span>. </span>
+<span id="cb33-115"><a href="#cb33-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-116"><a href="#cb33-116" aria-hidden="true" tabindex="-1"></a>I know what you are thinking now 👀... </span>
+<span id="cb33-117"><a href="#cb33-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-118"><a href="#cb33-118" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Huh! It looks the same as Linear Regression Model !!</span>
+<span id="cb33-119"><a href="#cb33-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-120"><a href="#cb33-120" aria-hidden="true" tabindex="-1"></a>    😌 Yes, it is just another Linear Regression .. </span>
+<span id="cb33-121"><a href="#cb33-121" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Then what is that *activation function*?</span>
+<span id="cb33-122"><a href="#cb33-122" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb33-123"><a href="#cb33-123" aria-hidden="true" tabindex="-1"></a>    😌 This is something you will get to know in the near future.</span>
+<span id="cb33-124"><a href="#cb33-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-125"><a href="#cb33-125" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Should I relax?</span>
+<span id="cb33-126"><a href="#cb33-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-127"><a href="#cb33-127" aria-hidden="true" tabindex="-1"></a>   😌 Absolutely NOT !!</span>
 <span id="cb33-128"><a href="#cb33-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-129"><a href="#cb33-129" aria-hidden="true" tabindex="-1"></a><span class="al">![A Perceptron](img.png)</span></span>
-<span id="cb33-130"><a href="#cb33-130" aria-hidden="true" tabindex="-1"></a>So, Let's implement this using <span class="in">`tensor`</span></span>
-<span id="cb33-131"><a href="#cb33-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-132"><a href="#cb33-132" aria-hidden="true" tabindex="-1"></a><span class="fu">###  Data Preprocessing (can be skipped)</span></span>
-<span id="cb33-133"><a href="#cb33-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-134"><a href="#cb33-134" aria-hidden="true" tabindex="-1"></a>The data used for this eg is the most famous, Titanic Dataset. Some preprocessing steps are done (you might be familiear with them and so, they can be skipped)</span>
-<span id="cb33-135"><a href="#cb33-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-138"><a href="#cb33-138" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-139"><a href="#cb33-139" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb33-140"><a href="#cb33-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-141"><a href="#cb33-141" aria-hidden="true" tabindex="-1"></a><span class="co"># Some Data Cleaning and Preprocessing</span></span>
-<span id="cb33-142"><a href="#cb33-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-143"><a href="#cb33-143" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'train.csv'</span>)  <span class="co"># read dataset</span></span>
-<span id="cb33-144"><a href="#cb33-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-145"><a href="#cb33-145" aria-hidden="true" tabindex="-1"></a>mode <span class="op">=</span> df.mode(axis<span class="op">=</span><span class="dv">0</span>,).iloc[<span class="dv">0</span>]  <span class="co"># calculating mode of all columns</span></span>
-<span id="cb33-146"><a href="#cb33-146" aria-hidden="true" tabindex="-1"></a>df.fillna(mode, inplace<span class="op">=</span><span class="va">True</span>)   <span class="co"># filling missing values with mode</span></span>
-<span id="cb33-147"><a href="#cb33-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-148"><a href="#cb33-148" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'FareLog'</span>] <span class="op">=</span> np.log(df[<span class="st">'Fare'</span>] <span class="op">+</span> <span class="dv">1</span>)    <span class="co"># taking log of fare ( feature engineering )</span></span>
-<span id="cb33-149"><a href="#cb33-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-150"><a href="#cb33-150" aria-hidden="true" tabindex="-1"></a>cat_cols <span class="op">=</span> [<span class="st">'Sex'</span>, <span class="st">'Pclass'</span>, <span class="st">'Embarked'</span>]  <span class="co"># category columns</span></span>
-<span id="cb33-151"><a href="#cb33-151" aria-hidden="true" tabindex="-1"></a>df_cat <span class="op">=</span> pd.get_dummies(df, columns<span class="op">=</span>cat_cols)  <span class="co"># transforming categories to numerical values</span></span>
-<span id="cb33-152"><a href="#cb33-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-153"><a href="#cb33-153" aria-hidden="true" tabindex="-1"></a>indep_cols <span class="op">=</span> [<span class="st">'Age'</span>, <span class="st">'SibSp'</span>, <span class="st">'Parch'</span>, <span class="st">'FareLog'</span>, </span>
-<span id="cb33-154"><a href="#cb33-154" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Pclass_1'</span>, <span class="st">'Pclass_2'</span>, <span class="st">'Pclass_3'</span>,</span>
-<span id="cb33-155"><a href="#cb33-155" aria-hidden="true" tabindex="-1"></a>       <span class="st">'Sex_female'</span>, <span class="st">'Sex_male'</span>, <span class="st">'Embarked_C'</span>, <span class="st">'Embarked_Q'</span>, <span class="st">'Embarked_S'</span>,</span>
-<span id="cb33-156"><a href="#cb33-156" aria-hidden="true" tabindex="-1"></a>       <span class="st">'Embarked_S'</span>]     <span class="co"># list of independent columns </span></span>
-<span id="cb33-157"><a href="#cb33-157" aria-hidden="true" tabindex="-1"></a>dep_cols <span class="op">=</span> [<span class="st">'Survived'</span>]   <span class="co"># list of dependent columns</span></span>
-<span id="cb33-158"><a href="#cb33-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-159"><a href="#cb33-159" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df_cat[indep_cols <span class="op">+</span> dep_cols]   <span class="co"># final dataset</span></span>
-<span id="cb33-160"><a href="#cb33-160" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-161"><a href="#cb33-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-164"><a href="#cb33-164" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-165"><a href="#cb33-165" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">2</span>)</span>
-<span id="cb33-166"><a href="#cb33-166" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-167"><a href="#cb33-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-168"><a href="#cb33-168" aria-hidden="true" tabindex="-1"></a><span class="fu">### Set X and Y tensors</span></span>
-<span id="cb33-169"><a href="#cb33-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-129"><a href="#cb33-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-130"><a href="#cb33-130" aria-hidden="true" tabindex="-1"></a><span class="al">![A Perceptron](img.png)</span></span>
+<span id="cb33-131"><a href="#cb33-131" aria-hidden="true" tabindex="-1"></a>So, Let's implement this using <span class="in">`tensor`</span></span>
+<span id="cb33-132"><a href="#cb33-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-133"><a href="#cb33-133" aria-hidden="true" tabindex="-1"></a><span class="fu">###  Data Preprocessing (can be skipped)</span></span>
+<span id="cb33-134"><a href="#cb33-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-135"><a href="#cb33-135" aria-hidden="true" tabindex="-1"></a>The data used for this eg is the most famous, Titanic Dataset. Some preprocessing steps are done (you might be familiear with them and so, they can be skipped)</span>
+<span id="cb33-136"><a href="#cb33-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-139"><a href="#cb33-139" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-140"><a href="#cb33-140" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb33-141"><a href="#cb33-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-142"><a href="#cb33-142" aria-hidden="true" tabindex="-1"></a><span class="co"># Some Data Cleaning and Preprocessing</span></span>
+<span id="cb33-143"><a href="#cb33-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-144"><a href="#cb33-144" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'train.csv'</span>)  <span class="co"># read dataset</span></span>
+<span id="cb33-145"><a href="#cb33-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-146"><a href="#cb33-146" aria-hidden="true" tabindex="-1"></a>mode <span class="op">=</span> df.mode(axis<span class="op">=</span><span class="dv">0</span>,).iloc[<span class="dv">0</span>]  <span class="co"># calculating mode of all columns</span></span>
+<span id="cb33-147"><a href="#cb33-147" aria-hidden="true" tabindex="-1"></a>df.fillna(mode, inplace<span class="op">=</span><span class="va">True</span>)   <span class="co"># filling missing values with mode</span></span>
+<span id="cb33-148"><a href="#cb33-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-149"><a href="#cb33-149" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'FareLog'</span>] <span class="op">=</span> np.log(df[<span class="st">'Fare'</span>] <span class="op">+</span> <span class="dv">1</span>)    <span class="co"># taking log of fare ( feature engineering )</span></span>
+<span id="cb33-150"><a href="#cb33-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-151"><a href="#cb33-151" aria-hidden="true" tabindex="-1"></a>cat_cols <span class="op">=</span> [<span class="st">'Sex'</span>, <span class="st">'Pclass'</span>, <span class="st">'Embarked'</span>]  <span class="co"># category columns</span></span>
+<span id="cb33-152"><a href="#cb33-152" aria-hidden="true" tabindex="-1"></a>df_cat <span class="op">=</span> pd.get_dummies(df, columns<span class="op">=</span>cat_cols)  <span class="co"># transforming categories to numerical values</span></span>
+<span id="cb33-153"><a href="#cb33-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-154"><a href="#cb33-154" aria-hidden="true" tabindex="-1"></a>indep_cols <span class="op">=</span> [<span class="st">'Age'</span>, <span class="st">'SibSp'</span>, <span class="st">'Parch'</span>, <span class="st">'FareLog'</span>, </span>
+<span id="cb33-155"><a href="#cb33-155" aria-hidden="true" tabindex="-1"></a>        <span class="st">'Pclass_1'</span>, <span class="st">'Pclass_2'</span>, <span class="st">'Pclass_3'</span>,</span>
+<span id="cb33-156"><a href="#cb33-156" aria-hidden="true" tabindex="-1"></a>       <span class="st">'Sex_female'</span>, <span class="st">'Sex_male'</span>, <span class="st">'Embarked_C'</span>, <span class="st">'Embarked_Q'</span>, <span class="st">'Embarked_S'</span>,</span>
+<span id="cb33-157"><a href="#cb33-157" aria-hidden="true" tabindex="-1"></a>       <span class="st">'Embarked_S'</span>]     <span class="co"># list of independent columns </span></span>
+<span id="cb33-158"><a href="#cb33-158" aria-hidden="true" tabindex="-1"></a>dep_cols <span class="op">=</span> [<span class="st">'Survived'</span>]   <span class="co"># list of dependent columns</span></span>
+<span id="cb33-159"><a href="#cb33-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-160"><a href="#cb33-160" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df_cat[indep_cols <span class="op">+</span> dep_cols]   <span class="co"># final dataset</span></span>
+<span id="cb33-161"><a href="#cb33-161" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-162"><a href="#cb33-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-165"><a href="#cb33-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-166"><a href="#cb33-166" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">2</span>)</span>
+<span id="cb33-167"><a href="#cb33-167" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-168"><a href="#cb33-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-169"><a href="#cb33-169" aria-hidden="true" tabindex="-1"></a><span class="fu">### Set X and Y tensors</span></span>
 <span id="cb33-170"><a href="#cb33-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-171"><a href="#cb33-171" aria-hidden="true" tabindex="-1"></a>The <span class="in">`Survived`</span> value is what we have to predict. So, here instead of using <span class="in">`pandas`</span> or <span class="in">`numpy`</span>, we are using <span class="in">`tensor`</span>!! </span>
-<span id="cb33-172"><a href="#cb33-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-173"><a href="#cb33-173" aria-hidden="true" tabindex="-1"></a>Initialize the values of dependent and independent variables as tensors like this...</span>
-<span id="cb33-174"><a href="#cb33-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-177"><a href="#cb33-177" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-178"><a href="#cb33-178" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> tensor(df[indep_cols].values.astype(<span class="bu">float</span>))</span>
-<span id="cb33-179"><a href="#cb33-179" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> tensor(df[dep_cols].values.astype(<span class="bu">float</span>))</span>
-<span id="cb33-180"><a href="#cb33-180" aria-hidden="true" tabindex="-1"></a>max_val, idxs <span class="op">=</span> X.<span class="bu">max</span>(dim<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb33-181"><a href="#cb33-181" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> X <span class="op">/</span> max_val   </span>
-<span id="cb33-182"><a href="#cb33-182" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-183"><a href="#cb33-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-186"><a href="#cb33-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-187"><a href="#cb33-187" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb33-188"><a href="#cb33-188" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'X.shape : '</span>, X.shape)</span>
-<span id="cb33-189"><a href="#cb33-189" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'y.shape : '</span>, y.shape)</span>
-<span id="cb33-190"><a href="#cb33-190" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">First Row of X :'</span>)</span>
-<span id="cb33-191"><a href="#cb33-191" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X[<span class="dv">0</span>])</span>
-<span id="cb33-192"><a href="#cb33-192" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">First Row of y :'</span>)</span>
-<span id="cb33-193"><a href="#cb33-193" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y[<span class="dv">0</span>])</span>
-<span id="cb33-194"><a href="#cb33-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-195"><a href="#cb33-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-171"><a href="#cb33-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-172"><a href="#cb33-172" aria-hidden="true" tabindex="-1"></a>The <span class="in">`Survived`</span> value is what we have to predict. So, here instead of using <span class="in">`pandas`</span> or <span class="in">`numpy`</span>, we are using <span class="in">`tensor`</span>!! </span>
+<span id="cb33-173"><a href="#cb33-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-174"><a href="#cb33-174" aria-hidden="true" tabindex="-1"></a>Initialize the values of dependent and independent variables as tensors like this...</span>
+<span id="cb33-175"><a href="#cb33-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-178"><a href="#cb33-178" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-179"><a href="#cb33-179" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> tensor(df[indep_cols].values.astype(<span class="bu">float</span>))</span>
+<span id="cb33-180"><a href="#cb33-180" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> tensor(df[dep_cols].values.astype(<span class="bu">float</span>))</span>
+<span id="cb33-181"><a href="#cb33-181" aria-hidden="true" tabindex="-1"></a>max_val, idxs <span class="op">=</span> X.<span class="bu">max</span>(dim<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb33-182"><a href="#cb33-182" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> X <span class="op">/</span> max_val   </span>
+<span id="cb33-183"><a href="#cb33-183" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-184"><a href="#cb33-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-187"><a href="#cb33-187" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-188"><a href="#cb33-188" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb33-189"><a href="#cb33-189" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'X.shape : '</span>, X.shape)</span>
+<span id="cb33-190"><a href="#cb33-190" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'y.shape : '</span>, y.shape)</span>
+<span id="cb33-191"><a href="#cb33-191" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">First Row of X :'</span>)</span>
+<span id="cb33-192"><a href="#cb33-192" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(X[<span class="dv">0</span>])</span>
+<span id="cb33-193"><a href="#cb33-193" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">First Row of y :'</span>)</span>
+<span id="cb33-194"><a href="#cb33-194" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y[<span class="dv">0</span>])</span>
+<span id="cb33-195"><a href="#cb33-195" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb33-196"><a href="#cb33-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-197"><a href="#cb33-197" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Initialize the weights</span></span>
-<span id="cb33-198"><a href="#cb33-198" aria-hidden="true" tabindex="-1"></a>We have to make a weights tensor that will be used as *coefficients*. </span>
-<span id="cb33-199"><a href="#cb33-199" aria-hidden="true" tabindex="-1"></a>At the start of training, it can be a random valued tensor, we can design a function for this.. To keep it simple initially, we are not using bais term rn.</span>
-<span id="cb33-200"><a href="#cb33-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-201"><a href="#cb33-201" aria-hidden="true" tabindex="-1"></a><span class="in">`torch.rand()`</span> takes the shape of required tensor and generates it </span>
-<span id="cb33-202"><a href="#cb33-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-205"><a href="#cb33-205" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-206"><a href="#cb33-206" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_coeff(indep_var):</span>
-<span id="cb33-207"><a href="#cb33-207" aria-hidden="true" tabindex="-1"></a>    n_coeffs <span class="op">=</span> indep_var.shape[<span class="dv">1</span>]</span>
-<span id="cb33-208"><a href="#cb33-208" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (torch.rand(n_coeffs) <span class="op">-</span> <span class="fl">0.5</span>)</span>
-<span id="cb33-209"><a href="#cb33-209" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-210"><a href="#cb33-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-211"><a href="#cb33-211" aria-hidden="true" tabindex="-1"></a><span class="in">` - 0.5 `</span> is done to normalize the values</span>
-<span id="cb33-212"><a href="#cb33-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-215"><a href="#cb33-215" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-216"><a href="#cb33-216" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb33-217"><a href="#cb33-217" aria-hidden="true" tabindex="-1"></a><span class="co"># c,b = init_coeff(X)</span></span>
-<span id="cb33-218"><a href="#cb33-218" aria-hidden="true" tabindex="-1"></a><span class="co"># print('Coffecients: \n', c[:,0])</span></span>
-<span id="cb33-219"><a href="#cb33-219" aria-hidden="true" tabindex="-1"></a><span class="co"># print('\nBais: ', b)</span></span>
-<span id="cb33-220"><a href="#cb33-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-221"><a href="#cb33-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-222"><a href="#cb33-222" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Calculate Predictions and Loss</span></span>
-<span id="cb33-223"><a href="#cb33-223" aria-hidden="true" tabindex="-1"></a>Very similar to Linear Regression, Predictions can be calculated by the *weighted sum* of *features* and *weights*.</span>
-<span id="cb33-224"><a href="#cb33-224" aria-hidden="true" tabindex="-1"></a>For *loss* we have used *Mean Absolute Error*..</span>
-<span id="cb33-225"><a href="#cb33-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-226"><a href="#cb33-226" aria-hidden="true" tabindex="-1"></a>Let's make a function for this... </span>
-<span id="cb33-227"><a href="#cb33-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-230"><a href="#cb33-230" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-231"><a href="#cb33-231" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_preds(coeff, indep_var):</span>
-<span id="cb33-232"><a href="#cb33-232" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (indep_var<span class="op">*</span>coeff).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)[:,<span class="va">None</span>] </span>
-<span id="cb33-233"><a href="#cb33-233" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb33-234"><a href="#cb33-234" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_loss(coeff, indep_var, dep_var):</span>
-<span id="cb33-235"><a href="#cb33-235" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> torch.<span class="bu">abs</span>(calc_preds(coeff, indep_var) <span class="op">-</span> dep_var).mean()</span>
-<span id="cb33-236"><a href="#cb33-236" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-237"><a href="#cb33-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-238"><a href="#cb33-238" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Epochs </span></span>
-<span id="cb33-239"><a href="#cb33-239" aria-hidden="true" tabindex="-1"></a>Now,as we have all the necessary functions, we can perform our first epoch, a **single epoch** will calculate the loss, takes the gradient value according to learning rate and modify the coefficients to reduce the error. This is exactly same as a single step of gradient descent...</span>
-<span id="cb33-240"><a href="#cb33-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-241"><a href="#cb33-241" aria-hidden="true" tabindex="-1"></a>$$Weight = Weight - LearningRate * Gradient$$</span>
-<span id="cb33-242"><a href="#cb33-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-245"><a href="#cb33-245" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-246"><a href="#cb33-246" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_coeff(coeff, lr):</span>
-<span id="cb33-247"><a href="#cb33-247" aria-hidden="true" tabindex="-1"></a>    <span class="co"># subtracts the value from coeff and save it as a new value</span></span>
-<span id="cb33-248"><a href="#cb33-248" aria-hidden="true" tabindex="-1"></a>    coeff.sub_(coeff.grad <span class="op">*</span> lr)     </span>
-<span id="cb33-249"><a href="#cb33-249" aria-hidden="true" tabindex="-1"></a>    coeff.grad.zero_()         <span class="co"># sets the coeff.grad value to 0</span></span>
-<span id="cb33-250"><a href="#cb33-250" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-251"><a href="#cb33-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-254"><a href="#cb33-254" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
-<span id="cb33-255"><a href="#cb33-255" aria-hidden="true" tabindex="-1"></a>flowchart LR</span>
-<span id="cb33-256"><a href="#cb33-256" aria-hidden="true" tabindex="-1"></a>  A[Random Weight] --&gt; B(Calculate \nLoss)</span>
-<span id="cb33-257"><a href="#cb33-257" aria-hidden="true" tabindex="-1"></a>  B --&gt; C[Calculate \nGradient] --&gt; D[Modify\n Weights] -- <span class="ot">"</span><span class="st"> for n epochs </span><span class="ot">"</span> --&gt; B</span>
-<span id="cb33-258"><a href="#cb33-258" aria-hidden="true" tabindex="-1"></a>  D --&gt; E[Final Weights]</span>
-<span id="cb33-259"><a href="#cb33-259" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-260"><a href="#cb33-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-197"><a href="#cb33-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-198"><a href="#cb33-198" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Initialize the weights</span></span>
+<span id="cb33-199"><a href="#cb33-199" aria-hidden="true" tabindex="-1"></a>We have to make a weights tensor that will be used as *coefficients*. </span>
+<span id="cb33-200"><a href="#cb33-200" aria-hidden="true" tabindex="-1"></a>At the start of training, it can be a random valued tensor, we can design a function for this.. To keep it simple initially, we are not using bais term rn.</span>
+<span id="cb33-201"><a href="#cb33-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-202"><a href="#cb33-202" aria-hidden="true" tabindex="-1"></a><span class="in">`torch.rand()`</span> takes the shape of required tensor and generates it </span>
+<span id="cb33-203"><a href="#cb33-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-206"><a href="#cb33-206" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-207"><a href="#cb33-207" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_coeff(indep_var):</span>
+<span id="cb33-208"><a href="#cb33-208" aria-hidden="true" tabindex="-1"></a>    n_coeffs <span class="op">=</span> indep_var.shape[<span class="dv">1</span>]</span>
+<span id="cb33-209"><a href="#cb33-209" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (torch.rand(n_coeffs) <span class="op">-</span> <span class="fl">0.5</span>)</span>
+<span id="cb33-210"><a href="#cb33-210" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-211"><a href="#cb33-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-212"><a href="#cb33-212" aria-hidden="true" tabindex="-1"></a><span class="in">` - 0.5 `</span> is done to normalize the values</span>
+<span id="cb33-213"><a href="#cb33-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-216"><a href="#cb33-216" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-217"><a href="#cb33-217" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb33-218"><a href="#cb33-218" aria-hidden="true" tabindex="-1"></a><span class="co"># c,b = init_coeff(X)</span></span>
+<span id="cb33-219"><a href="#cb33-219" aria-hidden="true" tabindex="-1"></a><span class="co"># print('Coffecients: \n', c[:,0])</span></span>
+<span id="cb33-220"><a href="#cb33-220" aria-hidden="true" tabindex="-1"></a><span class="co"># print('\nBais: ', b)</span></span>
+<span id="cb33-221"><a href="#cb33-221" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-222"><a href="#cb33-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-223"><a href="#cb33-223" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Calculate Predictions and Loss</span></span>
+<span id="cb33-224"><a href="#cb33-224" aria-hidden="true" tabindex="-1"></a>Very similar to Linear Regression, Predictions can be calculated by the *weighted sum* of *features* and *weights*.</span>
+<span id="cb33-225"><a href="#cb33-225" aria-hidden="true" tabindex="-1"></a>For *loss* we have used *Mean Absolute Error*..</span>
+<span id="cb33-226"><a href="#cb33-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-227"><a href="#cb33-227" aria-hidden="true" tabindex="-1"></a>Let's make a function for this... </span>
+<span id="cb33-228"><a href="#cb33-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-231"><a href="#cb33-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-232"><a href="#cb33-232" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_preds(coeff, indep_var):</span>
+<span id="cb33-233"><a href="#cb33-233" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (indep_var<span class="op">*</span>coeff).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)[:,<span class="va">None</span>] </span>
+<span id="cb33-234"><a href="#cb33-234" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-235"><a href="#cb33-235" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_loss(coeff, indep_var, dep_var):</span>
+<span id="cb33-236"><a href="#cb33-236" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> torch.<span class="bu">abs</span>(calc_preds(coeff, indep_var) <span class="op">-</span> dep_var).mean()</span>
+<span id="cb33-237"><a href="#cb33-237" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-238"><a href="#cb33-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-239"><a href="#cb33-239" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Epochs </span></span>
+<span id="cb33-240"><a href="#cb33-240" aria-hidden="true" tabindex="-1"></a>Now,as we have all the necessary functions, we can perform our first epoch, a **single epoch** will calculate the loss, takes the gradient value according to learning rate and modify the coefficients to reduce the error. This is exactly same as a single step of gradient descent...</span>
+<span id="cb33-241"><a href="#cb33-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-242"><a href="#cb33-242" aria-hidden="true" tabindex="-1"></a>$$Weight = Weight - LearningRate * Gradient$$</span>
+<span id="cb33-243"><a href="#cb33-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-246"><a href="#cb33-246" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-247"><a href="#cb33-247" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_coeff(coeff, lr):</span>
+<span id="cb33-248"><a href="#cb33-248" aria-hidden="true" tabindex="-1"></a>    <span class="co"># subtracts the value from coeff and save it as a new value</span></span>
+<span id="cb33-249"><a href="#cb33-249" aria-hidden="true" tabindex="-1"></a>    coeff.sub_(coeff.grad <span class="op">*</span> lr)     </span>
+<span id="cb33-250"><a href="#cb33-250" aria-hidden="true" tabindex="-1"></a>    coeff.grad.zero_()         <span class="co"># sets the coeff.grad value to 0</span></span>
+<span id="cb33-251"><a href="#cb33-251" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-252"><a href="#cb33-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-255"><a href="#cb33-255" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb33-256"><a href="#cb33-256" aria-hidden="true" tabindex="-1"></a>flowchart LR</span>
+<span id="cb33-257"><a href="#cb33-257" aria-hidden="true" tabindex="-1"></a>  A[Random Weight] --&gt; B(Calculate \nLoss)</span>
+<span id="cb33-258"><a href="#cb33-258" aria-hidden="true" tabindex="-1"></a>  B --&gt; C[Calculate \nGradient] --&gt; D[Modify\n Weights] -- <span class="ot">"</span><span class="st"> for n epochs </span><span class="ot">"</span> --&gt; B</span>
+<span id="cb33-259"><a href="#cb33-259" aria-hidden="true" tabindex="-1"></a>  D --&gt; E[Final Weights]</span>
+<span id="cb33-260"><a href="#cb33-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb33-261"><a href="#cb33-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-264"><a href="#cb33-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-265"><a href="#cb33-265" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> one_epoch(coeff, lr):</span>
-<span id="cb33-266"><a href="#cb33-266" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> calc_loss(coeff, X, y)</span>
-<span id="cb33-267"><a href="#cb33-267" aria-hidden="true" tabindex="-1"></a>    loss.backward()                                 <span class="co"># new term alert !</span></span>
-<span id="cb33-268"><a href="#cb33-268" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f' loss : </span><span class="sc">{</span>loss<span class="sc">:.3}</span><span class="ss"> '</span>, end<span class="op">=</span><span class="st">';'</span>)</span>
-<span id="cb33-269"><a href="#cb33-269" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():                         <span class="co"># no_grad mode</span></span>
-<span id="cb33-270"><a href="#cb33-270" aria-hidden="true" tabindex="-1"></a>        update_coeff(coeff, lr)</span>
-<span id="cb33-271"><a href="#cb33-271" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb33-272"><a href="#cb33-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-273"><a href="#cb33-273" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_model(n_epochs, lr):</span>
-<span id="cb33-274"><a href="#cb33-274" aria-hidden="true" tabindex="-1"></a>    torch.manual_seed(<span class="dv">442</span>)</span>
-<span id="cb33-275"><a href="#cb33-275" aria-hidden="true" tabindex="-1"></a>    coeff <span class="op">=</span> init_coeff(X)</span>
-<span id="cb33-276"><a href="#cb33-276" aria-hidden="true" tabindex="-1"></a>    coeff.requires_grad_()                         <span class="co"># new term alert !</span></span>
-<span id="cb33-277"><a href="#cb33-277" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_epochs):</span>
-<span id="cb33-278"><a href="#cb33-278" aria-hidden="true" tabindex="-1"></a>        one_epoch(coeff, lr)</span>
-<span id="cb33-279"><a href="#cb33-279" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\n\n</span><span class="st">Final Loss: '</span>, <span class="bu">float</span>(calc_loss(coeff, X, y)))</span>
-<span id="cb33-280"><a href="#cb33-280" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> coeff</span>
-<span id="cb33-281"><a href="#cb33-281" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-282"><a href="#cb33-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-283"><a href="#cb33-283" aria-hidden="true" tabindex="-1"></a><span class="fu">### Autograd Machenism ⚠️</span></span>
-<span id="cb33-284"><a href="#cb33-284" aria-hidden="true" tabindex="-1"></a><span class="in">`coeff.requires_grad_()`</span> sets the value of <span class="in">`coeff.requires_grad`</span> = <span class="in">`True`</span>... when this is set true, the gradients values are computed for these tensors, which can be used afterward in backpropagation. So, when a *back pass* is done, their <span class="in">`.grad`</span> values update with new gradient values. </span>
-<span id="cb33-285"><a href="#cb33-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-262"><a href="#cb33-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-265"><a href="#cb33-265" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-266"><a href="#cb33-266" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> one_epoch(coeff, lr):</span>
+<span id="cb33-267"><a href="#cb33-267" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> calc_loss(coeff, X, y)</span>
+<span id="cb33-268"><a href="#cb33-268" aria-hidden="true" tabindex="-1"></a>    loss.backward()                                 <span class="co"># new term alert !</span></span>
+<span id="cb33-269"><a href="#cb33-269" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f' loss : </span><span class="sc">{</span>loss<span class="sc">:.3}</span><span class="ss"> '</span>, end<span class="op">=</span><span class="st">';'</span>)</span>
+<span id="cb33-270"><a href="#cb33-270" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():                         <span class="co"># no_grad mode</span></span>
+<span id="cb33-271"><a href="#cb33-271" aria-hidden="true" tabindex="-1"></a>        update_coeff(coeff, lr)</span>
+<span id="cb33-272"><a href="#cb33-272" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb33-273"><a href="#cb33-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-274"><a href="#cb33-274" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_model(n_epochs, lr):</span>
+<span id="cb33-275"><a href="#cb33-275" aria-hidden="true" tabindex="-1"></a>    torch.manual_seed(<span class="dv">442</span>)</span>
+<span id="cb33-276"><a href="#cb33-276" aria-hidden="true" tabindex="-1"></a>    coeff <span class="op">=</span> init_coeff(X)</span>
+<span id="cb33-277"><a href="#cb33-277" aria-hidden="true" tabindex="-1"></a>    coeff.requires_grad_()                         <span class="co"># new term alert !</span></span>
+<span id="cb33-278"><a href="#cb33-278" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_epochs):</span>
+<span id="cb33-279"><a href="#cb33-279" aria-hidden="true" tabindex="-1"></a>        one_epoch(coeff, lr)</span>
+<span id="cb33-280"><a href="#cb33-280" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\n\n</span><span class="st">Final Loss: '</span>, <span class="bu">float</span>(calc_loss(coeff, X, y)))</span>
+<span id="cb33-281"><a href="#cb33-281" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> coeff</span>
+<span id="cb33-282"><a href="#cb33-282" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-283"><a href="#cb33-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-284"><a href="#cb33-284" aria-hidden="true" tabindex="-1"></a><span class="fu">### Autograd Machenism ⚠️</span></span>
+<span id="cb33-285"><a href="#cb33-285" aria-hidden="true" tabindex="-1"></a><span class="in">`coeff.requires_grad_()`</span> sets the value of <span class="in">`coeff.requires_grad`</span> = <span class="in">`True`</span>... when this is set true, the gradients values are computed for these tensors, which can be used afterward in backpropagation. So, when a *back pass* is done, their <span class="in">`.grad`</span> values update with new gradient values. </span>
 <span id="cb33-286"><a href="#cb33-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-287"><a href="#cb33-287" aria-hidden="true" tabindex="-1"></a><span class="in">`loss.backward()`</span> is a *back pass* here. When calculations are performed (in forward pass), an operation is recorded in backward graph when at least one of its input tensors requires gradient. And when we call <span class="in">`loss.backward()`</span>, leaf tensors with <span class="in">`.requires_grad = True`</span> will have gradients accumulated to their <span class="in">`.grad`</span> fields.</span>
-<span id="cb33-288"><a href="#cb33-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-289"><a href="#cb33-289" aria-hidden="true" tabindex="-1"></a>So, We calculate gradients by forward and backward propagation. We first set the <span class="in">`coeff.requires_grad = True`</span> then the loss is calculated for the <span class="in">`coeff`</span>. As coeff requires grad so, this operation will be added in backward graph. And now, when we call <span class="in">`loss.backward()`</span>, it calculates the <span class="in">`.grad`</span> values of all those tensors which requires grad and are in the backward graph. So, the coeff tensor will have its <span class="in">`.grad`</span> value updated. </span>
-<span id="cb33-290"><a href="#cb33-290" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-291"><a href="#cb33-291" aria-hidden="true" tabindex="-1"></a>Then we update the <span class="in">`coeff`</span> value. While doing this, we dont want this operation to be saved in backward graph so, we keep this modification under <span class="in">`torch.no_grad()`</span> function, and so, this operation is neglected and is not tracked. Next when again loss is calculated and backward fun. called, new grad values gets updated.... and the process carries on.</span>
-<span id="cb33-292"><a href="#cb33-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-295"><a href="#cb33-295" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-296"><a href="#cb33-296" aria-hidden="true" tabindex="-1"></a>coeff <span class="op">=</span> train_model(<span class="dv">40</span>,<span class="fl">0.1</span>)</span>
-<span id="cb33-297"><a href="#cb33-297" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-298"><a href="#cb33-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-299"><a href="#cb33-299" aria-hidden="true" tabindex="-1"></a><span class="fu">### Activation Function 🍭</span></span>
-<span id="cb33-300"><a href="#cb33-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-301"><a href="#cb33-301" aria-hidden="true" tabindex="-1"></a>Here we have used another function <span class="in">`torch.sigmoid()`</span> over the calculated predictions, which is known as **Activation Function!**.</span>
-<span id="cb33-302"><a href="#cb33-302" aria-hidden="true" tabindex="-1"></a>We know that the weighted sum can produce the values less than 0 or more than 1. But our <span class="in">`y`</span> has values only between 0 and 1. so, to restrict the values, we use the *sigmoid* function... which you might be familiear with if you know Logistic Regression. </span>
-<span id="cb33-303"><a href="#cb33-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-304"><a href="#cb33-304" aria-hidden="true" tabindex="-1"></a>$$\sigma(z) = \frac{1} {1 + e^{-z}}$$</span>
-<span id="cb33-305"><a href="#cb33-305" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-308"><a href="#cb33-308" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-309"><a href="#cb33-309" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_preds(coeff, indep_var):</span>
-<span id="cb33-310"><a href="#cb33-310" aria-hidden="true" tabindex="-1"></a>    reg_pred <span class="op">=</span> (indep_var<span class="op">*</span>coeff).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)[:,<span class="va">None</span>]</span>
-<span id="cb33-311"><a href="#cb33-311" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> torch.sigmoid(reg_pred)</span>
-<span id="cb33-312"><a href="#cb33-312" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-313"><a href="#cb33-313" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-316"><a href="#cb33-316" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-317"><a href="#cb33-317" aria-hidden="true" tabindex="-1"></a>coeff <span class="op">=</span> train_model(<span class="dv">40</span>,<span class="dv">50</span>)</span>
-<span id="cb33-318"><a href="#cb33-318" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-319"><a href="#cb33-319" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-320"><a href="#cb33-320" aria-hidden="true" tabindex="-1"></a>**Congratulations !! You have trained your first Neuron !!!!!**</span>
-<span id="cb33-321"><a href="#cb33-321" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-322"><a href="#cb33-322" aria-hidden="true" tabindex="-1"></a><span class="fu"># Building a Layer of NN 🪵</span></span>
-<span id="cb33-323"><a href="#cb33-323" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-324"><a href="#cb33-324" aria-hidden="true" tabindex="-1"></a>A single layerd NN will just contain more than one Neurons as the layer. Each neuron will receive all features values and gives an output. The outputs of all the neurons of the layer will passed to output neuron, which will combine them to produce the final output. </span>
-<span id="cb33-325"><a href="#cb33-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-326"><a href="#cb33-326" aria-hidden="true" tabindex="-1"></a>The first layer neurons will have weights equal to size of input features. The output neuron will contain the weights of size of no. of neurons in first layer. </span>
-<span id="cb33-327"><a href="#cb33-327" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-328"><a href="#cb33-328" aria-hidden="true" tabindex="-1"></a>Simple !!! Take a look at hidden neuron = 2 and with hidden neuron = 1</span>
-<span id="cb33-329"><a href="#cb33-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-332"><a href="#cb33-332" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
-<span id="cb33-333"><a href="#cb33-333" aria-hidden="true" tabindex="-1"></a>flowchart TD</span>
-<span id="cb33-334"><a href="#cb33-334" aria-hidden="true" tabindex="-1"></a>  A((<span class="dv">1</span>)) --&gt; Z((F))</span>
-<span id="cb33-335"><a href="#cb33-335" aria-hidden="true" tabindex="-1"></a>  B((<span class="dv">2</span>)) --&gt; Z</span>
-<span id="cb33-336"><a href="#cb33-336" aria-hidden="true" tabindex="-1"></a>  Z --&gt; V((Z))</span>
-<span id="cb33-337"><a href="#cb33-337" aria-hidden="true" tabindex="-1"></a>  AA((I1)) --&gt; A</span>
-<span id="cb33-338"><a href="#cb33-338" aria-hidden="true" tabindex="-1"></a>  AB((I2)) --&gt; A</span>
-<span id="cb33-339"><a href="#cb33-339" aria-hidden="true" tabindex="-1"></a>  AB --&gt; B</span>
-<span id="cb33-340"><a href="#cb33-340" aria-hidden="true" tabindex="-1"></a>  AC((I3)) --&gt; A</span>
-<span id="cb33-341"><a href="#cb33-341" aria-hidden="true" tabindex="-1"></a>  AC --&gt; B</span>
-<span id="cb33-342"><a href="#cb33-342" aria-hidden="true" tabindex="-1"></a>  AD((I4)) --&gt; A</span>
-<span id="cb33-343"><a href="#cb33-343" aria-hidden="true" tabindex="-1"></a>  AD --&gt; B</span>
-<span id="cb33-344"><a href="#cb33-344" aria-hidden="true" tabindex="-1"></a>  AA --&gt; B</span>
-<span id="cb33-345"><a href="#cb33-345" aria-hidden="true" tabindex="-1"></a>  A1((<span class="dv">1</span>)) --&gt; Z1((F))</span>
-<span id="cb33-346"><a href="#cb33-346" aria-hidden="true" tabindex="-1"></a>  Z1 --&gt; V1((Z))</span>
-<span id="cb33-347"><a href="#cb33-347" aria-hidden="true" tabindex="-1"></a>  AA1((I1)) --&gt; A1</span>
-<span id="cb33-348"><a href="#cb33-348" aria-hidden="true" tabindex="-1"></a>  AB1((I2)) --&gt; A1</span>
-<span id="cb33-349"><a href="#cb33-349" aria-hidden="true" tabindex="-1"></a>  AC1((I3)) --&gt; A1</span>
-<span id="cb33-350"><a href="#cb33-350" aria-hidden="true" tabindex="-1"></a>  AD1((I4)) --&gt; A1</span>
-<span id="cb33-351"><a href="#cb33-351" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-352"><a href="#cb33-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-353"><a href="#cb33-353" aria-hidden="true" tabindex="-1"></a>So <span class="in">`I1 - I4`</span> are input features, <span class="in">`1`</span> and <span class="in">`2`</span> are the neurons of first layer, `</span>
-<span id="cb33-354"><a href="#cb33-354" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-355"><a href="#cb33-355" aria-hidden="true" tabindex="-1"></a>F<span class="in">` is the output neuron, which takes `</span>1<span class="in">` and `</span>2` as input. </span>
-<span id="cb33-356"><a href="#cb33-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-357"><a href="#cb33-357" aria-hidden="true" tabindex="-1"></a>Finally <span class="in">`Z`</span> is the activation function. </span>
-<span id="cb33-358"><a href="#cb33-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-359"><a href="#cb33-359" aria-hidden="true" tabindex="-1"></a>**Initialization of Weights...**</span>
-<span id="cb33-360"><a href="#cb33-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-361"><a href="#cb33-361" aria-hidden="true" tabindex="-1"></a>the weights will contain <span class="in">`layer_1`</span> of shape (n_coeff, n_hidden), so it will contain n_hidden set of weights, where the shape of each weight set will be of size n_coeff (input features).</span>
-<span id="cb33-362"><a href="#cb33-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-363"><a href="#cb33-363" aria-hidden="true" tabindex="-1"></a>And <span class="in">`layer_2`</span> will have 1 set of weights where the weight set will be of size n_hidden. <span class="in">`const`</span> is the bais term added. </span>
-<span id="cb33-364"><a href="#cb33-364" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-367"><a href="#cb33-367" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-368"><a href="#cb33-368" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_coeffs(n_hidden, indep_var):</span>
-<span id="cb33-369"><a href="#cb33-369" aria-hidden="true" tabindex="-1"></a>    n_coeff <span class="op">=</span> indep_var.shape[<span class="dv">1</span>]</span>
-<span id="cb33-370"><a href="#cb33-370" aria-hidden="true" tabindex="-1"></a>    layer1 <span class="op">=</span> ((torch.rand(n_coeff, n_hidden) <span class="op">-</span> <span class="fl">0.5</span>) <span class="op">/</span> n_hidden).double().requires_grad_()  <span class="co"># shape of (n_coeff, n_hidden)</span></span>
-<span id="cb33-371"><a href="#cb33-371" aria-hidden="true" tabindex="-1"></a>    layer2 <span class="op">=</span> ((torch.rand(n_hidden, <span class="dv">1</span>)) <span class="op">-</span> <span class="fl">0.3</span>).double().requires_grad_()                  <span class="co"># output layer, shape of (n_hidden, 1)</span></span>
-<span id="cb33-372"><a href="#cb33-372" aria-hidden="true" tabindex="-1"></a>    const <span class="op">=</span> ((torch.rand(<span class="dv">1</span>, <span class="dv">1</span>)<span class="op">-</span><span class="fl">0.5</span>).double() <span class="op">*</span> <span class="fl">0.1</span>).requires_grad_()</span>
-<span id="cb33-373"><a href="#cb33-373" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> layer1, layer2, const</span>
-<span id="cb33-374"><a href="#cb33-374" aria-hidden="true" tabindex="-1"></a>coeff <span class="op">=</span> init_coeffs(<span class="dv">2</span>, X)</span>
-<span id="cb33-375"><a href="#cb33-375" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-376"><a href="#cb33-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-377"><a href="#cb33-377" aria-hidden="true" tabindex="-1"></a>**Calculate Predictions and Loss**</span>
-<span id="cb33-378"><a href="#cb33-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-379"><a href="#cb33-379" aria-hidden="true" tabindex="-1"></a>The predictions of hidden layer are calculated by <span class="in">`matmul()`</span> fun for weighted sum by matrix multiplication, the *activation function* used for first layer is **ReLu Activation Function**. It is a more simpler function, which sets any -ve value to 0. </span>
-<span id="cb33-380"><a href="#cb33-380" aria-hidden="true" tabindex="-1"></a>$$Relu(z) = max(0, z)$$</span>
-<span id="cb33-381"><a href="#cb33-381" aria-hidden="true" tabindex="-1"></a>The output of first layer is given input for second layer and so, is multiplied with layer2 and const term is added. The final output layer uses the **sigmoid** function. </span>
-<span id="cb33-382"><a href="#cb33-382" aria-hidden="true" tabindex="-1"></a>No change required in Loss Function</span>
-<span id="cb33-383"><a href="#cb33-383" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-386"><a href="#cb33-386" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-387"><a href="#cb33-387" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
-<span id="cb33-388"><a href="#cb33-388" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-389"><a href="#cb33-389" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-392"><a href="#cb33-392" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-393"><a href="#cb33-393" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_preds(coeff, indep_var):</span>
-<span id="cb33-394"><a href="#cb33-394" aria-hidden="true" tabindex="-1"></a>    layer1, layer2, const <span class="op">=</span> coeff</span>
-<span id="cb33-395"><a href="#cb33-395" aria-hidden="true" tabindex="-1"></a>    op1 <span class="op">=</span> F.relu(indep_var.matmul(layer1))     <span class="co"># new term alert</span></span>
-<span id="cb33-396"><a href="#cb33-396" aria-hidden="true" tabindex="-1"></a>    op2 <span class="op">=</span> op1.matmul(layer2) <span class="op">+</span> const</span>
-<span id="cb33-397"><a href="#cb33-397" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> torch.sigmoid(op2)</span>
-<span id="cb33-398"><a href="#cb33-398" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-399"><a href="#cb33-399" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-400"><a href="#cb33-400" aria-hidden="true" tabindex="-1"></a>**Update Coefficient** requires just a slight change, instead of single coeff, we have multiple coeff (<span class="in">`layer1, layer2, coeff`</span>), so loop over all of them </span>
-<span id="cb33-401"><a href="#cb33-401" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-404"><a href="#cb33-404" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-405"><a href="#cb33-405" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_coeff(coeff, lr):</span>
-<span id="cb33-406"><a href="#cb33-406" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> layer <span class="kw">in</span> coeff:</span>
-<span id="cb33-407"><a href="#cb33-407" aria-hidden="true" tabindex="-1"></a>        layer.sub_(layer.grad <span class="op">*</span> lr)</span>
-<span id="cb33-408"><a href="#cb33-408" aria-hidden="true" tabindex="-1"></a>        layer.grad.zero_()</span>
-<span id="cb33-409"><a href="#cb33-409" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-410"><a href="#cb33-410" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-411"><a href="#cb33-411" aria-hidden="true" tabindex="-1"></a>**Train Function** requires a slight change to give <span class="in">`n_hidden`</span> value as input for init_coeff()</span>
-<span id="cb33-412"><a href="#cb33-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-415"><a href="#cb33-415" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-416"><a href="#cb33-416" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_model(n_epochs, lr, n_hidden<span class="op">=</span><span class="dv">2</span>):</span>
-<span id="cb33-417"><a href="#cb33-417" aria-hidden="true" tabindex="-1"></a>    coeff <span class="op">=</span> init_coeffs(n_hidden, X)</span>
-<span id="cb33-418"><a href="#cb33-418" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_epochs):</span>
-<span id="cb33-419"><a href="#cb33-419" aria-hidden="true" tabindex="-1"></a>        one_epoch(coeff, lr)</span>
-<span id="cb33-420"><a href="#cb33-420" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\n\n</span><span class="st">Final Loss: '</span>, <span class="bu">float</span>(calc_loss(coeff, X, y)))</span>
-<span id="cb33-421"><a href="#cb33-421" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> coeff</span>
-<span id="cb33-422"><a href="#cb33-422" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-423"><a href="#cb33-423" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-426"><a href="#cb33-426" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-427"><a href="#cb33-427" aria-hidden="true" tabindex="-1"></a>coeff <span class="op">=</span> train_model(<span class="dv">40</span>,<span class="dv">10</span>)</span>
-<span id="cb33-428"><a href="#cb33-428" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-429"><a href="#cb33-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-287"><a href="#cb33-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-288"><a href="#cb33-288" aria-hidden="true" tabindex="-1"></a><span class="in">`loss.backward()`</span> is a *back pass* here. When calculations are performed (in forward pass), an operation is recorded in backward graph when at least one of its input tensors requires gradient. And when we call <span class="in">`loss.backward()`</span>, leaf tensors with <span class="in">`.requires_grad = True`</span> will have gradients accumulated to their <span class="in">`.grad`</span> fields.</span>
+<span id="cb33-289"><a href="#cb33-289" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-290"><a href="#cb33-290" aria-hidden="true" tabindex="-1"></a>So, We calculate gradients by forward and backward propagation. We first set the <span class="in">`coeff.requires_grad = True`</span> then the loss is calculated for the <span class="in">`coeff`</span>. As coeff requires grad so, this operation will be added in backward graph. And now, when we call <span class="in">`loss.backward()`</span>, it calculates the <span class="in">`.grad`</span> values of all those tensors which requires grad and are in the backward graph. So, the coeff tensor will have its <span class="in">`.grad`</span> value updated. </span>
+<span id="cb33-291"><a href="#cb33-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-292"><a href="#cb33-292" aria-hidden="true" tabindex="-1"></a>Then we update the <span class="in">`coeff`</span> value. While doing this, we dont want this operation to be saved in backward graph so, we keep this modification under <span class="in">`torch.no_grad()`</span> function, and so, this operation is neglected and is not tracked. Next when again loss is calculated and backward fun. called, new grad values gets updated.... and the process carries on.</span>
+<span id="cb33-293"><a href="#cb33-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-296"><a href="#cb33-296" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-297"><a href="#cb33-297" aria-hidden="true" tabindex="-1"></a>coeff <span class="op">=</span> train_model(<span class="dv">40</span>,<span class="fl">0.1</span>)</span>
+<span id="cb33-298"><a href="#cb33-298" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-299"><a href="#cb33-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-300"><a href="#cb33-300" aria-hidden="true" tabindex="-1"></a><span class="fu">### Activation Function 🍭</span></span>
+<span id="cb33-301"><a href="#cb33-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-302"><a href="#cb33-302" aria-hidden="true" tabindex="-1"></a>Here we have used another function <span class="in">`torch.sigmoid()`</span> over the calculated predictions, which is known as **Activation Function!**.</span>
+<span id="cb33-303"><a href="#cb33-303" aria-hidden="true" tabindex="-1"></a>We know that the weighted sum can produce the values less than 0 or more than 1. But our <span class="in">`y`</span> has values only between 0 and 1. so, to restrict the values, we use the *sigmoid* function... which you might be familiear with if you know Logistic Regression. </span>
+<span id="cb33-304"><a href="#cb33-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-305"><a href="#cb33-305" aria-hidden="true" tabindex="-1"></a>$$\sigma(z) = \frac{1} {1 + e^{-z}}$$</span>
+<span id="cb33-306"><a href="#cb33-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-309"><a href="#cb33-309" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-310"><a href="#cb33-310" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_preds(coeff, indep_var):</span>
+<span id="cb33-311"><a href="#cb33-311" aria-hidden="true" tabindex="-1"></a>    reg_pred <span class="op">=</span> (indep_var<span class="op">*</span>coeff).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)[:,<span class="va">None</span>]</span>
+<span id="cb33-312"><a href="#cb33-312" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> torch.sigmoid(reg_pred)</span>
+<span id="cb33-313"><a href="#cb33-313" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-314"><a href="#cb33-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-317"><a href="#cb33-317" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-318"><a href="#cb33-318" aria-hidden="true" tabindex="-1"></a>coeff <span class="op">=</span> train_model(<span class="dv">40</span>,<span class="dv">50</span>)</span>
+<span id="cb33-319"><a href="#cb33-319" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-320"><a href="#cb33-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-321"><a href="#cb33-321" aria-hidden="true" tabindex="-1"></a>**Congratulations !! You have trained your first Neuron !!!!!**</span>
+<span id="cb33-322"><a href="#cb33-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-323"><a href="#cb33-323" aria-hidden="true" tabindex="-1"></a><span class="fu"># Building a Layer of NN 🪵</span></span>
+<span id="cb33-324"><a href="#cb33-324" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-325"><a href="#cb33-325" aria-hidden="true" tabindex="-1"></a>A single layerd NN will just contain more than one Neurons as the layer. Each neuron will receive all features values and gives an output. The outputs of all the neurons of the layer will passed to output neuron, which will combine them to produce the final output. </span>
+<span id="cb33-326"><a href="#cb33-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-327"><a href="#cb33-327" aria-hidden="true" tabindex="-1"></a>The first layer neurons will have weights equal to size of input features. The output neuron will contain the weights of size of no. of neurons in first layer. </span>
+<span id="cb33-328"><a href="#cb33-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-329"><a href="#cb33-329" aria-hidden="true" tabindex="-1"></a>Simple !!! Take a look at hidden neuron = 2 and with hidden neuron = 1</span>
+<span id="cb33-330"><a href="#cb33-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-333"><a href="#cb33-333" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb33-334"><a href="#cb33-334" aria-hidden="true" tabindex="-1"></a>flowchart TD</span>
+<span id="cb33-335"><a href="#cb33-335" aria-hidden="true" tabindex="-1"></a>  A((<span class="dv">1</span>)) --&gt; Z((F))</span>
+<span id="cb33-336"><a href="#cb33-336" aria-hidden="true" tabindex="-1"></a>  B((<span class="dv">2</span>)) --&gt; Z</span>
+<span id="cb33-337"><a href="#cb33-337" aria-hidden="true" tabindex="-1"></a>  Z --&gt; V((Z))</span>
+<span id="cb33-338"><a href="#cb33-338" aria-hidden="true" tabindex="-1"></a>  AA((I1)) --&gt; A</span>
+<span id="cb33-339"><a href="#cb33-339" aria-hidden="true" tabindex="-1"></a>  AB((I2)) --&gt; A</span>
+<span id="cb33-340"><a href="#cb33-340" aria-hidden="true" tabindex="-1"></a>  AB --&gt; B</span>
+<span id="cb33-341"><a href="#cb33-341" aria-hidden="true" tabindex="-1"></a>  AC((I3)) --&gt; A</span>
+<span id="cb33-342"><a href="#cb33-342" aria-hidden="true" tabindex="-1"></a>  AC --&gt; B</span>
+<span id="cb33-343"><a href="#cb33-343" aria-hidden="true" tabindex="-1"></a>  AD((I4)) --&gt; A</span>
+<span id="cb33-344"><a href="#cb33-344" aria-hidden="true" tabindex="-1"></a>  AD --&gt; B</span>
+<span id="cb33-345"><a href="#cb33-345" aria-hidden="true" tabindex="-1"></a>  AA --&gt; B</span>
+<span id="cb33-346"><a href="#cb33-346" aria-hidden="true" tabindex="-1"></a>  A1((<span class="dv">1</span>)) --&gt; Z1((F))</span>
+<span id="cb33-347"><a href="#cb33-347" aria-hidden="true" tabindex="-1"></a>  Z1 --&gt; V1((Z))</span>
+<span id="cb33-348"><a href="#cb33-348" aria-hidden="true" tabindex="-1"></a>  AA1((I1)) --&gt; A1</span>
+<span id="cb33-349"><a href="#cb33-349" aria-hidden="true" tabindex="-1"></a>  AB1((I2)) --&gt; A1</span>
+<span id="cb33-350"><a href="#cb33-350" aria-hidden="true" tabindex="-1"></a>  AC1((I3)) --&gt; A1</span>
+<span id="cb33-351"><a href="#cb33-351" aria-hidden="true" tabindex="-1"></a>  AD1((I4)) --&gt; A1</span>
+<span id="cb33-352"><a href="#cb33-352" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-353"><a href="#cb33-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-354"><a href="#cb33-354" aria-hidden="true" tabindex="-1"></a>So <span class="in">`I1 - I4`</span> are input features, <span class="in">`1`</span> and <span class="in">`2`</span> are the neurons of first layer, `</span>
+<span id="cb33-355"><a href="#cb33-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-356"><a href="#cb33-356" aria-hidden="true" tabindex="-1"></a>F<span class="in">` is the output neuron, which takes `</span>1<span class="in">` and `</span>2` as input. </span>
+<span id="cb33-357"><a href="#cb33-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-358"><a href="#cb33-358" aria-hidden="true" tabindex="-1"></a>Finally <span class="in">`Z`</span> is the activation function. </span>
+<span id="cb33-359"><a href="#cb33-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-360"><a href="#cb33-360" aria-hidden="true" tabindex="-1"></a>**Initialization of Weights...**</span>
+<span id="cb33-361"><a href="#cb33-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-362"><a href="#cb33-362" aria-hidden="true" tabindex="-1"></a>the weights will contain <span class="in">`layer_1`</span> of shape (n_coeff, n_hidden), so it will contain n_hidden set of weights, where the shape of each weight set will be of size n_coeff (input features).</span>
+<span id="cb33-363"><a href="#cb33-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-364"><a href="#cb33-364" aria-hidden="true" tabindex="-1"></a>And <span class="in">`layer_2`</span> will have 1 set of weights where the weight set will be of size n_hidden. <span class="in">`const`</span> is the bais term added. </span>
+<span id="cb33-365"><a href="#cb33-365" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-368"><a href="#cb33-368" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-369"><a href="#cb33-369" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_coeffs(n_hidden, indep_var):</span>
+<span id="cb33-370"><a href="#cb33-370" aria-hidden="true" tabindex="-1"></a>    n_coeff <span class="op">=</span> indep_var.shape[<span class="dv">1</span>]</span>
+<span id="cb33-371"><a href="#cb33-371" aria-hidden="true" tabindex="-1"></a>    layer1 <span class="op">=</span> ((torch.rand(n_coeff, n_hidden) <span class="op">-</span> <span class="fl">0.5</span>) <span class="op">/</span> n_hidden).double().requires_grad_()  <span class="co"># shape of (n_coeff, n_hidden)</span></span>
+<span id="cb33-372"><a href="#cb33-372" aria-hidden="true" tabindex="-1"></a>    layer2 <span class="op">=</span> ((torch.rand(n_hidden, <span class="dv">1</span>)) <span class="op">-</span> <span class="fl">0.3</span>).double().requires_grad_()                  <span class="co"># output layer, shape of (n_hidden, 1)</span></span>
+<span id="cb33-373"><a href="#cb33-373" aria-hidden="true" tabindex="-1"></a>    const <span class="op">=</span> ((torch.rand(<span class="dv">1</span>, <span class="dv">1</span>)<span class="op">-</span><span class="fl">0.5</span>).double() <span class="op">*</span> <span class="fl">0.1</span>).requires_grad_()</span>
+<span id="cb33-374"><a href="#cb33-374" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> layer1, layer2, const</span>
+<span id="cb33-375"><a href="#cb33-375" aria-hidden="true" tabindex="-1"></a>coeff <span class="op">=</span> init_coeffs(<span class="dv">2</span>, X)</span>
+<span id="cb33-376"><a href="#cb33-376" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-377"><a href="#cb33-377" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-378"><a href="#cb33-378" aria-hidden="true" tabindex="-1"></a>**Calculate Predictions and Loss**</span>
+<span id="cb33-379"><a href="#cb33-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-380"><a href="#cb33-380" aria-hidden="true" tabindex="-1"></a>The predictions of hidden layer are calculated by <span class="in">`matmul()`</span> fun for weighted sum by matrix multiplication, the *activation function* used for first layer is **ReLu Activation Function**. It is a more simpler function, which sets any -ve value to 0. </span>
+<span id="cb33-381"><a href="#cb33-381" aria-hidden="true" tabindex="-1"></a>$$Relu(z) = max(0, z)$$</span>
+<span id="cb33-382"><a href="#cb33-382" aria-hidden="true" tabindex="-1"></a>The output of first layer is given input for second layer and so, is multiplied with layer2 and const term is added. The final output layer uses the **sigmoid** function. </span>
+<span id="cb33-383"><a href="#cb33-383" aria-hidden="true" tabindex="-1"></a>No change required in Loss Function</span>
+<span id="cb33-384"><a href="#cb33-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-387"><a href="#cb33-387" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-388"><a href="#cb33-388" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb33-389"><a href="#cb33-389" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-390"><a href="#cb33-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-393"><a href="#cb33-393" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-394"><a href="#cb33-394" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_preds(coeff, indep_var):</span>
+<span id="cb33-395"><a href="#cb33-395" aria-hidden="true" tabindex="-1"></a>    layer1, layer2, const <span class="op">=</span> coeff</span>
+<span id="cb33-396"><a href="#cb33-396" aria-hidden="true" tabindex="-1"></a>    op1 <span class="op">=</span> F.relu(indep_var.matmul(layer1))     <span class="co"># new term alert</span></span>
+<span id="cb33-397"><a href="#cb33-397" aria-hidden="true" tabindex="-1"></a>    op2 <span class="op">=</span> op1.matmul(layer2) <span class="op">+</span> const</span>
+<span id="cb33-398"><a href="#cb33-398" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> torch.sigmoid(op2)</span>
+<span id="cb33-399"><a href="#cb33-399" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-400"><a href="#cb33-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-401"><a href="#cb33-401" aria-hidden="true" tabindex="-1"></a>**Update Coefficient** requires just a slight change, instead of single coeff, we have multiple coeff (<span class="in">`layer1, layer2, coeff`</span>), so loop over all of them </span>
+<span id="cb33-402"><a href="#cb33-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-405"><a href="#cb33-405" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-406"><a href="#cb33-406" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_coeff(coeff, lr):</span>
+<span id="cb33-407"><a href="#cb33-407" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> layer <span class="kw">in</span> coeff:</span>
+<span id="cb33-408"><a href="#cb33-408" aria-hidden="true" tabindex="-1"></a>        layer.sub_(layer.grad <span class="op">*</span> lr)</span>
+<span id="cb33-409"><a href="#cb33-409" aria-hidden="true" tabindex="-1"></a>        layer.grad.zero_()</span>
+<span id="cb33-410"><a href="#cb33-410" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-411"><a href="#cb33-411" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-412"><a href="#cb33-412" aria-hidden="true" tabindex="-1"></a>**Train Function** requires a slight change to give <span class="in">`n_hidden`</span> value as input for init_coeff()</span>
+<span id="cb33-413"><a href="#cb33-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-416"><a href="#cb33-416" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-417"><a href="#cb33-417" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_model(n_epochs, lr, n_hidden<span class="op">=</span><span class="dv">2</span>):</span>
+<span id="cb33-418"><a href="#cb33-418" aria-hidden="true" tabindex="-1"></a>    coeff <span class="op">=</span> init_coeffs(n_hidden, X)</span>
+<span id="cb33-419"><a href="#cb33-419" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_epochs):</span>
+<span id="cb33-420"><a href="#cb33-420" aria-hidden="true" tabindex="-1"></a>        one_epoch(coeff, lr)</span>
+<span id="cb33-421"><a href="#cb33-421" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\n\n</span><span class="st">Final Loss: '</span>, <span class="bu">float</span>(calc_loss(coeff, X, y)))</span>
+<span id="cb33-422"><a href="#cb33-422" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> coeff</span>
+<span id="cb33-423"><a href="#cb33-423" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-424"><a href="#cb33-424" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-427"><a href="#cb33-427" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-428"><a href="#cb33-428" aria-hidden="true" tabindex="-1"></a>coeff <span class="op">=</span> train_model(<span class="dv">40</span>,<span class="dv">10</span>)</span>
+<span id="cb33-429"><a href="#cb33-429" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb33-430"><a href="#cb33-430" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-431"><a href="#cb33-431" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-432"><a href="#cb33-432" aria-hidden="true" tabindex="-1"></a><span class="fu"># Building a Complete Neural Network 🔮</span></span>
-<span id="cb33-433"><a href="#cb33-433" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-434"><a href="#cb33-434" aria-hidden="true" tabindex="-1"></a>A complete NN will contain several layers, with different sizes. Each layer will have some perceptrons, and perceptrons of a layer will have weights of size equal to no. of perceptron in previous layer. </span>
-<span id="cb33-435"><a href="#cb33-435" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-436"><a href="#cb33-436" aria-hidden="true" tabindex="-1"></a>So, there can be any number of neurons in a layer but, they all will receive ouptput of the previous layer and so their weights should match.</span>
-<span id="cb33-437"><a href="#cb33-437" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-438"><a href="#cb33-438" aria-hidden="true" tabindex="-1"></a>For eg, if a neural network has following layers : </span>
-<span id="cb33-439"><a href="#cb33-439" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-440"><a href="#cb33-440" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*Input Layer* - 3 inputs</span>
-<span id="cb33-441"><a href="#cb33-441" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb33-442"><a href="#cb33-442" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*Hidden Layers* -</span>
-<span id="cb33-443"><a href="#cb33-443" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Layer 1 - 2 perceptrons    ---&gt; (3 weights in every perceptron)</span>
-<span id="cb33-444"><a href="#cb33-444" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Layer 2 - 2 perceptrons    ---&gt; (2 weights in each perceptron)</span>
-<span id="cb33-445"><a href="#cb33-445" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-446"><a href="#cb33-446" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb33-447"><a href="#cb33-447" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*Output Layer* - 1 perceptron  ---&gt; (2 weights in each perceptron)</span>
-<span id="cb33-448"><a href="#cb33-448" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-449"><a href="#cb33-449" aria-hidden="true" tabindex="-1"></a>*And, so here we have a complete neural network...!!*</span>
-<span id="cb33-450"><a href="#cb33-450" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-453"><a href="#cb33-453" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
-<span id="cb33-454"><a href="#cb33-454" aria-hidden="true" tabindex="-1"></a>flowchart LR </span>
-<span id="cb33-455"><a href="#cb33-455" aria-hidden="true" tabindex="-1"></a>  A1((L1)) --&gt; Z1((L2))</span>
-<span id="cb33-456"><a href="#cb33-456" aria-hidden="true" tabindex="-1"></a>  Z1 --&gt; V1((Z))</span>
-<span id="cb33-457"><a href="#cb33-457" aria-hidden="true" tabindex="-1"></a>  AA1((I1)) --&gt; A1</span>
-<span id="cb33-458"><a href="#cb33-458" aria-hidden="true" tabindex="-1"></a>  AA1 --&gt; B((L1))</span>
-<span id="cb33-459"><a href="#cb33-459" aria-hidden="true" tabindex="-1"></a>  AB1((I2)) --&gt; A1</span>
-<span id="cb33-460"><a href="#cb33-460" aria-hidden="true" tabindex="-1"></a>  AB1 --&gt; B</span>
-<span id="cb33-461"><a href="#cb33-461" aria-hidden="true" tabindex="-1"></a>  AC1((I3)) --&gt; A1</span>
-<span id="cb33-462"><a href="#cb33-462" aria-hidden="true" tabindex="-1"></a>  AC1 --&gt; B</span>
-<span id="cb33-463"><a href="#cb33-463" aria-hidden="true" tabindex="-1"></a>  B --&gt; Z1</span>
-<span id="cb33-464"><a href="#cb33-464" aria-hidden="true" tabindex="-1"></a>  B --&gt; Z2</span>
-<span id="cb33-465"><a href="#cb33-465" aria-hidden="true" tabindex="-1"></a>  A1 --&gt; Z2((L2))</span>
-<span id="cb33-466"><a href="#cb33-466" aria-hidden="true" tabindex="-1"></a>  Z2 --&gt; V1</span>
-<span id="cb33-467"><a href="#cb33-467" aria-hidden="true" tabindex="-1"></a>  V1 --&gt; AL(OUTPUT)</span>
-<span id="cb33-468"><a href="#cb33-468" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb33-469"><a href="#cb33-469" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-470"><a href="#cb33-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-471"><a href="#cb33-471" aria-hidden="true" tabindex="-1"></a>**Weights Initialization** can contain a <span class="in">`list`</span> of layers size as input and so it will return the coefficients and bais matrix for all layers. </span>
-<span id="cb33-472"><a href="#cb33-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-475"><a href="#cb33-475" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-476"><a href="#cb33-476" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_coeffs(n_hidden: <span class="bu">list</span>, indep_var):</span>
-<span id="cb33-477"><a href="#cb33-477" aria-hidden="true" tabindex="-1"></a>    n_coeff <span class="op">=</span> indep_var.shape[<span class="dv">1</span>]</span>
-<span id="cb33-478"><a href="#cb33-478" aria-hidden="true" tabindex="-1"></a>    sizes <span class="op">=</span> [n_coeff] <span class="op">+</span> n_hidden <span class="op">+</span> [<span class="dv">1</span>]    <span class="co"># inputs, hidden, output</span></span>
-<span id="cb33-479"><a href="#cb33-479" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(sizes)</span>
-<span id="cb33-480"><a href="#cb33-480" aria-hidden="true" tabindex="-1"></a>    layers <span class="op">=</span> [(torch.rand(sizes[i], sizes[i<span class="op">+</span><span class="dv">1</span>]).double() <span class="op">-</span> <span class="fl">0.5</span>)<span class="op">/</span>sizes[i<span class="op">+</span><span class="dv">1</span>]<span class="op">*</span><span class="dv">4</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n<span class="op">-</span><span class="dv">1</span>)]</span>
-<span id="cb33-481"><a href="#cb33-481" aria-hidden="true" tabindex="-1"></a>    consts <span class="op">=</span> [((torch.rand(<span class="dv">1</span>,<span class="dv">1</span>) <span class="op">-</span> <span class="fl">0.5</span>) <span class="op">*</span> <span class="fl">0.1</span>).double() <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n<span class="op">-</span><span class="dv">1</span>)]</span>
-<span id="cb33-482"><a href="#cb33-482" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> (layers <span class="op">+</span> consts) : </span>
-<span id="cb33-483"><a href="#cb33-483" aria-hidden="true" tabindex="-1"></a>        l.requires_grad_()</span>
-<span id="cb33-484"><a href="#cb33-484" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> layers, consts</span>
-<span id="cb33-485"><a href="#cb33-485" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-486"><a href="#cb33-486" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-487"><a href="#cb33-487" aria-hidden="true" tabindex="-1"></a><span class="in">`- 0.5`</span>, <span class="in">`* 0.1`</span>, <span class="in">`* 4`</span>... and all these we only do for initial setup so that the random coeff. generated can be close to the optimum value in the start, (helpful for quickly converging the loss)</span>
-<span id="cb33-488"><a href="#cb33-488" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-491"><a href="#cb33-491" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-492"><a href="#cb33-492" aria-hidden="true" tabindex="-1"></a>[x.shape <span class="cf">for</span> x <span class="kw">in</span> init_coeffs([<span class="dv">4</span>, <span class="dv">2</span>], X)[<span class="dv">0</span>]]</span>
-<span id="cb33-493"><a href="#cb33-493" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-494"><a href="#cb33-494" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-495"><a href="#cb33-495" aria-hidden="true" tabindex="-1"></a>And here we can first layer has 4 perceptrons with 15 weights each, 2nd layer has 2 perceptrons with 4 weights each, output layer has 1 perceptron with 2 weights, and all of the layers have 1 bais term each</span>
-<span id="cb33-496"><a href="#cb33-496" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-497"><a href="#cb33-497" aria-hidden="true" tabindex="-1"></a>**Calculating Predictions** requires a slight change, looping over all layers, multiply the input values with weights of each layer. </span>
-<span id="cb33-498"><a href="#cb33-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-499"><a href="#cb33-499" aria-hidden="true" tabindex="-1"></a>$$output = input * weights + bais$$</span>
-<span id="cb33-500"><a href="#cb33-500" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-503"><a href="#cb33-503" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-504"><a href="#cb33-504" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_preds(coeff, indep_var):</span>
-<span id="cb33-505"><a href="#cb33-505" aria-hidden="true" tabindex="-1"></a>    layers, consts <span class="op">=</span> coeff</span>
-<span id="cb33-506"><a href="#cb33-506" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(layers)</span>
-<span id="cb33-507"><a href="#cb33-507" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> indep_var</span>
-<span id="cb33-508"><a href="#cb33-508" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, l <span class="kw">in</span> <span class="bu">enumerate</span>(layers[: <span class="op">-</span><span class="dv">1</span>]):</span>
-<span id="cb33-509"><a href="#cb33-509" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> F.relu( res.matmul(layers[i]) <span class="op">+</span> consts[i] )</span>
-<span id="cb33-510"><a href="#cb33-510" aria-hidden="true" tabindex="-1"></a>        <span class="co"># relu activation for all hidden layers</span></span>
-<span id="cb33-511"><a href="#cb33-511" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> res.matmul(layers[<span class="op">-</span><span class="dv">1</span>]) <span class="op">+</span> consts[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb33-512"><a href="#cb33-512" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> torch.sigmoid(res)                    <span class="co"># sigmoid for the output layer</span></span>
-<span id="cb33-513"><a href="#cb33-513" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-514"><a href="#cb33-514" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-515"><a href="#cb33-515" aria-hidden="true" tabindex="-1"></a>**Updating Coefficients** will simply loop over all coeff and baises and subtracting $graddient * learningRate$</span>
-<span id="cb33-516"><a href="#cb33-516" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-519"><a href="#cb33-519" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-520"><a href="#cb33-520" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_coeff(coeff, lr):</span>
-<span id="cb33-521"><a href="#cb33-521" aria-hidden="true" tabindex="-1"></a>    layers, consts <span class="op">=</span> coeff</span>
-<span id="cb33-522"><a href="#cb33-522" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> layer <span class="kw">in</span> (layers<span class="op">+</span>consts):</span>
-<span id="cb33-523"><a href="#cb33-523" aria-hidden="true" tabindex="-1"></a>        layer.sub_(layer.grad <span class="op">*</span> lr)</span>
-<span id="cb33-524"><a href="#cb33-524" aria-hidden="true" tabindex="-1"></a>        layer.grad.zero_()</span>
-<span id="cb33-525"><a href="#cb33-525" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-526"><a href="#cb33-526" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-527"><a href="#cb33-527" aria-hidden="true" tabindex="-1"></a>**Train Function** will take input of coeff as <span class="in">`list`</span> instead of <span class="in">`int`</span></span>
-<span id="cb33-528"><a href="#cb33-528" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-531"><a href="#cb33-531" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-532"><a href="#cb33-532" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_model(n_epochs, lr, n_hidden<span class="op">=</span>[<span class="dv">10</span>,<span class="dv">10</span>]):</span>
-<span id="cb33-533"><a href="#cb33-533" aria-hidden="true" tabindex="-1"></a>    coeff <span class="op">=</span> init_coeffs(n_hidden, X)</span>
-<span id="cb33-534"><a href="#cb33-534" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_epochs):</span>
-<span id="cb33-535"><a href="#cb33-535" aria-hidden="true" tabindex="-1"></a>        one_epoch(coeff, lr)</span>
-<span id="cb33-536"><a href="#cb33-536" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\n\n</span><span class="st">Final Loss: '</span>, <span class="bu">float</span>(calc_loss(coeff, X, y)))</span>
-<span id="cb33-537"><a href="#cb33-537" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> coeff</span>
-<span id="cb33-538"><a href="#cb33-538" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-539"><a href="#cb33-539" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-542"><a href="#cb33-542" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb33-543"><a href="#cb33-543" aria-hidden="true" tabindex="-1"></a>coeff <span class="op">=</span> train_model(<span class="dv">40</span>, <span class="dv">2</span>, [<span class="dv">10</span>,<span class="dv">5</span>])</span>
-<span id="cb33-544"><a href="#cb33-544" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb33-545"><a href="#cb33-545" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-546"><a href="#cb33-546" aria-hidden="true" tabindex="-1"></a><span class="fu"># Tada 🎉🎉🎉 !!!</span></span>
-<span id="cb33-547"><a href="#cb33-547" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-548"><a href="#cb33-548" aria-hidden="true" tabindex="-1"></a>Now you know how to build a complete Neural Network from scratch !!!</span>
-<span id="cb33-549"><a href="#cb33-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-432"><a href="#cb33-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-433"><a href="#cb33-433" aria-hidden="true" tabindex="-1"></a><span class="fu"># Building a Complete Neural Network 🔮</span></span>
+<span id="cb33-434"><a href="#cb33-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-435"><a href="#cb33-435" aria-hidden="true" tabindex="-1"></a>A complete NN will contain several layers, with different sizes. Each layer will have some perceptrons, and perceptrons of a layer will have weights of size equal to no. of perceptron in previous layer. </span>
+<span id="cb33-436"><a href="#cb33-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-437"><a href="#cb33-437" aria-hidden="true" tabindex="-1"></a>So, there can be any number of neurons in a layer but, they all will receive ouptput of the previous layer and so their weights should match.</span>
+<span id="cb33-438"><a href="#cb33-438" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-439"><a href="#cb33-439" aria-hidden="true" tabindex="-1"></a>For eg, if a neural network has following layers : </span>
+<span id="cb33-440"><a href="#cb33-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-441"><a href="#cb33-441" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*Input Layer* - 3 inputs</span>
+<span id="cb33-442"><a href="#cb33-442" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-443"><a href="#cb33-443" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*Hidden Layers* -</span>
+<span id="cb33-444"><a href="#cb33-444" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Layer 1 - 2 perceptrons    ---&gt; (3 weights in every perceptron)</span>
+<span id="cb33-445"><a href="#cb33-445" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Layer 2 - 2 perceptrons    ---&gt; (2 weights in each perceptron)</span>
+<span id="cb33-446"><a href="#cb33-446" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-447"><a href="#cb33-447" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb33-448"><a href="#cb33-448" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>*Output Layer* - 1 perceptron  ---&gt; (2 weights in each perceptron)</span>
+<span id="cb33-449"><a href="#cb33-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-450"><a href="#cb33-450" aria-hidden="true" tabindex="-1"></a>*And, so here we have a complete neural network...!!*</span>
+<span id="cb33-451"><a href="#cb33-451" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-454"><a href="#cb33-454" aria-hidden="true" tabindex="-1"></a><span class="in">```{mermaid}</span></span>
+<span id="cb33-455"><a href="#cb33-455" aria-hidden="true" tabindex="-1"></a>flowchart LR </span>
+<span id="cb33-456"><a href="#cb33-456" aria-hidden="true" tabindex="-1"></a>  A1((L1)) --&gt; Z1((L2))</span>
+<span id="cb33-457"><a href="#cb33-457" aria-hidden="true" tabindex="-1"></a>  Z1 --&gt; V1((Z))</span>
+<span id="cb33-458"><a href="#cb33-458" aria-hidden="true" tabindex="-1"></a>  AA1((I1)) --&gt; A1</span>
+<span id="cb33-459"><a href="#cb33-459" aria-hidden="true" tabindex="-1"></a>  AA1 --&gt; B((L1))</span>
+<span id="cb33-460"><a href="#cb33-460" aria-hidden="true" tabindex="-1"></a>  AB1((I2)) --&gt; A1</span>
+<span id="cb33-461"><a href="#cb33-461" aria-hidden="true" tabindex="-1"></a>  AB1 --&gt; B</span>
+<span id="cb33-462"><a href="#cb33-462" aria-hidden="true" tabindex="-1"></a>  AC1((I3)) --&gt; A1</span>
+<span id="cb33-463"><a href="#cb33-463" aria-hidden="true" tabindex="-1"></a>  AC1 --&gt; B</span>
+<span id="cb33-464"><a href="#cb33-464" aria-hidden="true" tabindex="-1"></a>  B --&gt; Z1</span>
+<span id="cb33-465"><a href="#cb33-465" aria-hidden="true" tabindex="-1"></a>  B --&gt; Z2</span>
+<span id="cb33-466"><a href="#cb33-466" aria-hidden="true" tabindex="-1"></a>  A1 --&gt; Z2((L2))</span>
+<span id="cb33-467"><a href="#cb33-467" aria-hidden="true" tabindex="-1"></a>  Z2 --&gt; V1</span>
+<span id="cb33-468"><a href="#cb33-468" aria-hidden="true" tabindex="-1"></a>  V1 --&gt; AL(OUTPUT)</span>
+<span id="cb33-469"><a href="#cb33-469" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb33-470"><a href="#cb33-470" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-471"><a href="#cb33-471" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-472"><a href="#cb33-472" aria-hidden="true" tabindex="-1"></a>**Weights Initialization** can contain a <span class="in">`list`</span> of layers size as input and so it will return the coefficients and bais matrix for all layers. </span>
+<span id="cb33-473"><a href="#cb33-473" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-476"><a href="#cb33-476" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-477"><a href="#cb33-477" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_coeffs(n_hidden: <span class="bu">list</span>, indep_var):</span>
+<span id="cb33-478"><a href="#cb33-478" aria-hidden="true" tabindex="-1"></a>    n_coeff <span class="op">=</span> indep_var.shape[<span class="dv">1</span>]</span>
+<span id="cb33-479"><a href="#cb33-479" aria-hidden="true" tabindex="-1"></a>    sizes <span class="op">=</span> [n_coeff] <span class="op">+</span> n_hidden <span class="op">+</span> [<span class="dv">1</span>]    <span class="co"># inputs, hidden, output</span></span>
+<span id="cb33-480"><a href="#cb33-480" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(sizes)</span>
+<span id="cb33-481"><a href="#cb33-481" aria-hidden="true" tabindex="-1"></a>    layers <span class="op">=</span> [(torch.rand(sizes[i], sizes[i<span class="op">+</span><span class="dv">1</span>]).double() <span class="op">-</span> <span class="fl">0.5</span>)<span class="op">/</span>sizes[i<span class="op">+</span><span class="dv">1</span>]<span class="op">*</span><span class="dv">4</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n<span class="op">-</span><span class="dv">1</span>)]</span>
+<span id="cb33-482"><a href="#cb33-482" aria-hidden="true" tabindex="-1"></a>    consts <span class="op">=</span> [((torch.rand(<span class="dv">1</span>,<span class="dv">1</span>) <span class="op">-</span> <span class="fl">0.5</span>) <span class="op">*</span> <span class="fl">0.1</span>).double() <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n<span class="op">-</span><span class="dv">1</span>)]</span>
+<span id="cb33-483"><a href="#cb33-483" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> l <span class="kw">in</span> (layers <span class="op">+</span> consts) : </span>
+<span id="cb33-484"><a href="#cb33-484" aria-hidden="true" tabindex="-1"></a>        l.requires_grad_()</span>
+<span id="cb33-485"><a href="#cb33-485" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> layers, consts</span>
+<span id="cb33-486"><a href="#cb33-486" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-487"><a href="#cb33-487" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-488"><a href="#cb33-488" aria-hidden="true" tabindex="-1"></a><span class="in">`- 0.5`</span>, <span class="in">`* 0.1`</span>, <span class="in">`* 4`</span>... and all these we only do for initial setup so that the random coeff. generated can be close to the optimum value in the start, (helpful for quickly converging the loss)</span>
+<span id="cb33-489"><a href="#cb33-489" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-492"><a href="#cb33-492" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-493"><a href="#cb33-493" aria-hidden="true" tabindex="-1"></a>[x.shape <span class="cf">for</span> x <span class="kw">in</span> init_coeffs([<span class="dv">4</span>, <span class="dv">2</span>], X)[<span class="dv">0</span>]]</span>
+<span id="cb33-494"><a href="#cb33-494" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-495"><a href="#cb33-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-496"><a href="#cb33-496" aria-hidden="true" tabindex="-1"></a>And here we can first layer has 4 perceptrons with 15 weights each, 2nd layer has 2 perceptrons with 4 weights each, output layer has 1 perceptron with 2 weights, and all of the layers have 1 bais term each</span>
+<span id="cb33-497"><a href="#cb33-497" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-498"><a href="#cb33-498" aria-hidden="true" tabindex="-1"></a>**Calculating Predictions** requires a slight change, looping over all layers, multiply the input values with weights of each layer. </span>
+<span id="cb33-499"><a href="#cb33-499" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-500"><a href="#cb33-500" aria-hidden="true" tabindex="-1"></a>$$output = input * weights + bais$$</span>
+<span id="cb33-501"><a href="#cb33-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-504"><a href="#cb33-504" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-505"><a href="#cb33-505" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_preds(coeff, indep_var):</span>
+<span id="cb33-506"><a href="#cb33-506" aria-hidden="true" tabindex="-1"></a>    layers, consts <span class="op">=</span> coeff</span>
+<span id="cb33-507"><a href="#cb33-507" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">len</span>(layers)</span>
+<span id="cb33-508"><a href="#cb33-508" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> indep_var</span>
+<span id="cb33-509"><a href="#cb33-509" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, l <span class="kw">in</span> <span class="bu">enumerate</span>(layers[: <span class="op">-</span><span class="dv">1</span>]):</span>
+<span id="cb33-510"><a href="#cb33-510" aria-hidden="true" tabindex="-1"></a>        res <span class="op">=</span> F.relu( res.matmul(layers[i]) <span class="op">+</span> consts[i] )</span>
+<span id="cb33-511"><a href="#cb33-511" aria-hidden="true" tabindex="-1"></a>        <span class="co"># relu activation for all hidden layers</span></span>
+<span id="cb33-512"><a href="#cb33-512" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> res.matmul(layers[<span class="op">-</span><span class="dv">1</span>]) <span class="op">+</span> consts[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb33-513"><a href="#cb33-513" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> torch.sigmoid(res)                    <span class="co"># sigmoid for the output layer</span></span>
+<span id="cb33-514"><a href="#cb33-514" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-515"><a href="#cb33-515" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-516"><a href="#cb33-516" aria-hidden="true" tabindex="-1"></a>**Updating Coefficients** will simply loop over all coeff and baises and subtracting $graddient * learningRate$</span>
+<span id="cb33-517"><a href="#cb33-517" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-520"><a href="#cb33-520" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-521"><a href="#cb33-521" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_coeff(coeff, lr):</span>
+<span id="cb33-522"><a href="#cb33-522" aria-hidden="true" tabindex="-1"></a>    layers, consts <span class="op">=</span> coeff</span>
+<span id="cb33-523"><a href="#cb33-523" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> layer <span class="kw">in</span> (layers<span class="op">+</span>consts):</span>
+<span id="cb33-524"><a href="#cb33-524" aria-hidden="true" tabindex="-1"></a>        layer.sub_(layer.grad <span class="op">*</span> lr)</span>
+<span id="cb33-525"><a href="#cb33-525" aria-hidden="true" tabindex="-1"></a>        layer.grad.zero_()</span>
+<span id="cb33-526"><a href="#cb33-526" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-527"><a href="#cb33-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-528"><a href="#cb33-528" aria-hidden="true" tabindex="-1"></a>**Train Function** will take input of coeff as <span class="in">`list`</span> instead of <span class="in">`int`</span></span>
+<span id="cb33-529"><a href="#cb33-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-532"><a href="#cb33-532" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-533"><a href="#cb33-533" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train_model(n_epochs, lr, n_hidden<span class="op">=</span>[<span class="dv">10</span>,<span class="dv">10</span>]):</span>
+<span id="cb33-534"><a href="#cb33-534" aria-hidden="true" tabindex="-1"></a>    coeff <span class="op">=</span> init_coeffs(n_hidden, X)</span>
+<span id="cb33-535"><a href="#cb33-535" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_epochs):</span>
+<span id="cb33-536"><a href="#cb33-536" aria-hidden="true" tabindex="-1"></a>        one_epoch(coeff, lr)</span>
+<span id="cb33-537"><a href="#cb33-537" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'</span><span class="ch">\n\n</span><span class="st">Final Loss: '</span>, <span class="bu">float</span>(calc_loss(coeff, X, y)))</span>
+<span id="cb33-538"><a href="#cb33-538" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> coeff</span>
+<span id="cb33-539"><a href="#cb33-539" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-540"><a href="#cb33-540" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-543"><a href="#cb33-543" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb33-544"><a href="#cb33-544" aria-hidden="true" tabindex="-1"></a>coeff <span class="op">=</span> train_model(<span class="dv">40</span>, <span class="dv">2</span>, [<span class="dv">10</span>,<span class="dv">5</span>])</span>
+<span id="cb33-545"><a href="#cb33-545" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb33-546"><a href="#cb33-546" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-547"><a href="#cb33-547" aria-hidden="true" tabindex="-1"></a><span class="fu"># Tada 🎉🎉🎉 !!!</span></span>
+<span id="cb33-548"><a href="#cb33-548" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-549"><a href="#cb33-549" aria-hidden="true" tabindex="-1"></a>Now you know how to build a complete Neural Network from scratch !!!</span>
 <span id="cb33-550"><a href="#cb33-550" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-551"><a href="#cb33-551" aria-hidden="true" tabindex="-1"></a>Let me know if I missed something. 😉</span>
-<span id="cb33-552"><a href="#cb33-552" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-553"><a href="#cb33-553" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Where to go from here? </span></span>
-<span id="cb33-554"><a href="#cb33-554" aria-hidden="true" tabindex="-1"></a>😏 Haah! **Nowhere !!!** </span>
-<span id="cb33-555"><a href="#cb33-555" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-556"><a href="#cb33-556" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br&gt;</span></span>
-<span id="cb33-557"><a href="#cb33-557" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/br&gt;</span></span>
-<span id="cb33-558"><a href="#cb33-558" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br&gt;</span></span>
-<span id="cb33-559"><a href="#cb33-559" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-560"><a href="#cb33-560" aria-hidden="true" tabindex="-1"></a>**PS :**</span>
-<span id="cb33-561"><a href="#cb33-561" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-551"><a href="#cb33-551" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-552"><a href="#cb33-552" aria-hidden="true" tabindex="-1"></a>Let me know if I missed something. 😉</span>
+<span id="cb33-553"><a href="#cb33-553" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-554"><a href="#cb33-554" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Where to go from here? </span></span>
+<span id="cb33-555"><a href="#cb33-555" aria-hidden="true" tabindex="-1"></a>😏 Haah! **Nowhere !!!** </span>
+<span id="cb33-556"><a href="#cb33-556" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-557"><a href="#cb33-557" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br&gt;</span></span>
+<span id="cb33-558"><a href="#cb33-558" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/br&gt;</span></span>
+<span id="cb33-559"><a href="#cb33-559" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;br&gt;</span></span>
+<span id="cb33-560"><a href="#cb33-560" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-561"><a href="#cb33-561" aria-hidden="true" tabindex="-1"></a>**PS :**</span>
 <span id="cb33-562"><a href="#cb33-562" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-563"><a href="#cb33-563" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; For the flowcharts, I have used the tool named mermaid, you can generate them easily in markdown.</span></span>
-<span id="cb33-564"><a href="#cb33-564" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-565"><a href="#cb33-565" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; To transform this notebook into webpage, I have used Quarto.</span></span>
-<span id="cb33-566"><a href="#cb33-566" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-567"><a href="#cb33-567" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; My only recommendation - do fast.ai course 😌</span></span>
-<span id="cb33-568"><a href="#cb33-568" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-563"><a href="#cb33-563" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-564"><a href="#cb33-564" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; For the flowcharts, I have used the tool named mermaid, you can generate them easily in markdown.</span></span>
+<span id="cb33-565"><a href="#cb33-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-566"><a href="#cb33-566" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; To transform this notebook into webpage, I have used Quarto.</span></span>
+<span id="cb33-567"><a href="#cb33-567" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-568"><a href="#cb33-568" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; My only recommendation - do fast.ai course 😌</span></span>
 <span id="cb33-569"><a href="#cb33-569" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-570"><a href="#cb33-570" aria-hidden="true" tabindex="-1"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
