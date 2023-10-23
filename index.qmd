@@ -1,5 +1,5 @@
 ---
-title: "Mljourney"
+title: "ilovetensor"
 listing:
   contents: posts
   sort: "date desc"

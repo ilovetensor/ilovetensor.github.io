@@ -5,80 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="717199ef-3a38-4917-83c3-a243b9b688f6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ilovetensor.github.io.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_quarto.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/about.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/listings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/posts/post-with-code/image.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/posts/post-with-code/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/posts/welcome/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/posts/welcome/thumbnail.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/profile.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/search.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/bootstrap/bootstrap-icons.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/bootstrap/bootstrap-icons.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/bootstrap/bootstrap.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/bootstrap/bootstrap.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/clipboard/clipboard.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-html/anchor.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-html/popper.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-html/quarto-syntax-highlighting.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-html/quarto.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-html/tippy.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-html/tippy.umd.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-listing/list.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-listing/quarto-listing.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-nav/headroom.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-nav/quarto-nav.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-search/autocomplete.umd.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-search/fuse.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/site_libs/quarto-search/quarto-search.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/_site/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/about.qmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/about.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/listings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/posts/post-with-code/image.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/posts/post-with-code/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/posts/welcome/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/posts/welcome/thumbnail.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/profile.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/search.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/bootstrap/bootstrap-icons.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/bootstrap/bootstrap-icons.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/bootstrap/bootstrap.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/bootstrap/bootstrap.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/clipboard/clipboard.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-html/anchor.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-html/popper.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-html/quarto-syntax-highlighting.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-html/quarto.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-html/tippy.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-html/tippy.umd.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-listing/list.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-listing/quarto-listing.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-nav/headroom.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-nav/quarto-nav.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-search/autocomplete.umd.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-search/fuse.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/site_libs/quarto-search/quarto-search.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/docs/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/index.qmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/posts/_metadata.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/posts/post-with-code/image.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/posts/post-with-code/index.qmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/posts/welcome/index.qmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/posts/welcome/thumbnail.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/profile.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mljourney/styles.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_quarto.yml" beforeDir="false" afterPath="$PROJECT_DIR$/_quarto.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/about.qmd" beforeDir="false" afterPath="$PROJECT_DIR$/about.qmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/listings.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/listings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/posts/post-with-code/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posts/welcome/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/posts/welcome/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/search.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/search.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/site_libs/bootstrap/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/docs/site_libs/bootstrap/bootstrap.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.qmd" beforeDir="false" afterPath="$PROJECT_DIR$/index.qmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posts/post-with-code/image.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/posts/post-with-code/index.qmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/posts/welcome/index.qmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/posts/welcome/thumbnail.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,6 +36,9 @@
   "associatedIndex": 7
 }]]></component>
   <component name="ProjectId" id="2XAmflRk8cpn8DIgGjHvK78hjIp" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -107,14 +51,25 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/91967/Documents/rohan/Python/Github Pages/ilovetensor.github.io",
+    "last_opened_file_path": "C:/Users/91967/Documents/rohan/Python/Github Pages/ilovetensor.github.io/posts/post-with-code",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\91967\Documents\rohan\Python\Github Pages\ilovetensor.github.io\posts\post-with-code" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="ls" />
+    </option>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -123,7 +78,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1698080363526</updated>
-      <workItem from="1698080366597" duration="985000" />
+      <workItem from="1698080366597" duration="7217000" />
     </task>
     <servers />
   </component>

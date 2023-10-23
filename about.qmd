@@ -1,19 +1,19 @@
 ---
-title: "About"
+title: "Rohan Sharma"
 image: profile.jpg
 about:
   template: jolla
   links:
     - icon: twitter
       text: Twitter
-      href: https://twitter.com
+      href: https://twitter.com/rohanshar11
     - icon: linkedin
       text: LinkedIn
-      href: https://linkedin.com
+      href: https://linkedin.com/in/rohansharma11
     - icon: github
       text: Github
-      href: https://github.com
+      href: https://github.com/ilovetensor
 
 ---
 
-About this blog
+ML Practitioner
