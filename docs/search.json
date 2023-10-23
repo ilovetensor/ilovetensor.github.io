@@ -14,17 +14,17 @@
     "text": "Know some Tensors 🍃\nTensors are a fundamental data structure, very similar to arrays and matrices. A tensor can be represented as a matrix, but also as a vector, a scalar, or a higher-dimensional array.\n\nfrom torch import tensor\n\n\nnp_array = np.array([[2,5,7,2],[2,6,8,3]])\none_d = tensor([1,4,5,6])\ntwo_d = tensor(np_array)\nprint(one_d); print(two_d);\n\ntensor([1, 4, 5, 6])\ntensor([[2, 5, 7, 2],\n        [2, 6, 8, 3]], dtype=torch.int32)\n\n\ntensor are just like numpy arrays and so, there is not much to think about them, lets get to the next big thing…"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "ilovetensor",
-    "section": "",
-    "text": "Neural Networks From Scratch – ML practitioner’s guide\n\n\n\n\n\n\n\nDeep Learning\n\n\nNeural Networks\n\n\nPytorch\n\n\n\n\n\n\n\n\n\n\n\nOct 24, 2023\n\n\nRohan Sharma\n\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "Rohan Sharma",
     "section": "",
     "text": "ML Practitioner"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ilovetensor",
+    "section": "",
+    "text": "Neural Networks From Scratch – ML practitioner’s guide\n\n\n\n\n\n\n\nDeep Learning\n\n\nNeural Networks\n\n\nPytorch\n\n\n\n\n\n\n\n\n\n\n\nOct 24, 2023\n\n\nRohan Sharma\n\n\n\n\n\n\nNo matching items"
   }
 ]
