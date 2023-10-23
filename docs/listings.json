@@ -2,7 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/post-with-code/index.html"
+      "/posts/another-post/index.html",
+      "/posts/neural-nets-from-scratch/index.html"
     ]
   }
 ]

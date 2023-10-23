@@ -5,22 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="717199ef-3a38-4917-83c3-a243b9b688f6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/docs/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/about.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_freeze/posts/post-with-code/index/execute-results/html.json" beforeDir="false" afterPath="$PROJECT_DIR$/_freeze/posts/post-with-code/index/execute-results/html.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_freeze/posts/post-with-code/index/figure-html/fig-limit-output-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/_freeze/posts/post-with-code/index/figure-html/fig-limit-output-1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_quarto.yml" beforeDir="false" afterPath="$PROJECT_DIR$/_quarto.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/listings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/image.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/listings.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/listings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/img.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/img_1.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/img_nn.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/index.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/index_files/figure-html/fig-limit-output-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/welcome/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/welcome/thumbnail.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/search.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-diagram/mermaid-init.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-diagram/mermaid.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-diagram/mermaid.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/posts/post-with-code/index.qmd" beforeDir="false" afterPath="$PROJECT_DIR$/posts/post-with-code/index.qmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/search.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/search.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/site_libs/bootstrap/bootstrap-dark.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/docs/site_libs/bootstrap/bootstrap-dark.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posts/neural-nets-from-scratch/index.qmd" beforeDir="false" afterPath="$PROJECT_DIR$/posts/neural-nets-from-scratch/index.qmd" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,9 +30,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2XAmflRk8cpn8DIgGjHvK78hjIp" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -46,21 +43,21 @@
     <option name="sortByType" value="true" />
     <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/91967/Documents/rohan/Python/Github Pages/ilovetensor.github.io/posts/post-with-code",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/91967/Documents/rohan/Python/Github Pages/ilovetensor.github.io/posts/post-with-code&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\91967\Documents\rohan\Python\Github Pages\ilovetensor.github.io\posts\post-with-code" />
@@ -79,7 +76,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1698080363526</updated>
-      <workItem from="1698080366597" duration="7910000" />
+      <workItem from="1698080366597" duration="9032000" />
+      <workItem from="1698089997412" duration="1996000" />
     </task>
     <servers />
   </component>

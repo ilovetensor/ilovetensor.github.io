@@ -117,6 +117,8 @@ I know what you are thinking now 👀...
 
 
 ![A Perceptron](img.png)
+
+
 So, Let's implement this using `tensor`
 
 ###  Data Preprocessing (can be skipped)
@@ -154,7 +156,7 @@ df.head(2)
 ### Set X and Y tensors
 
 
-The `Survived` value is what we have to predict. So, here instead of using `pandas` or `numpy`, we are using `tensor`!! 
+The `Survived` value is what we have to predict. And instead of using `pandas` or `numpy`, we are using `tensor`.
 
 Initialize the values of dependent and independent variables as tensors like this...
 
@@ -250,7 +252,7 @@ def train_model(n_epochs, lr):
     return coeff
 ```
 
-### Autograd Machenism ⚠️
+### Autograd Mechanism ⚠️
 `coeff.requires_grad_()` sets the value of `coeff.requires_grad` = `True`... when this is set true, the gradients values are computed for these tensors, which can be used afterward in backpropagation. So, when a *back pass* is done, their `.grad` values update with new gradient values. 
 
 
