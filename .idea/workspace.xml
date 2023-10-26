@@ -6,23 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="717199ef-3a38-4917-83c3-a243b9b688f6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_freeze/posts/post-with-code/index/execute-results/html.json" beforeDir="false" afterPath="$PROJECT_DIR$/_freeze/posts/post-with-code/index/execute-results/html.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_freeze/posts/post-with-code/index/figure-html/fig-limit-output-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/_freeze/posts/post-with-code/index/figure-html/fig-limit-output-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_quarto.yml" beforeDir="false" afterPath="$PROJECT_DIR$/_quarto.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/listings.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/listings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/img.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/img_nn.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/post-with-code/index_files/figure-html/fig-limit-output-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/search.json" beforeDir="false" afterPath="$PROJECT_DIR$/docs/search.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/bootstrap/bootstrap-dark.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/docs/site_libs/bootstrap/bootstrap-dark.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posts/neural-nets-from-scratch/index.qmd" beforeDir="false" afterPath="$PROJECT_DIR$/posts/neural-nets-from-scratch/index.qmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/about.qmd" beforeDir="false" afterPath="$PROJECT_DIR$/about.qmd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posts/neural-nets-from-scratch/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/posts/neural-nets-from-scratch/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/posts/_metadata.yml" beforeDir="false" afterPath="$PROJECT_DIR$/posts/_metadata.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -49,12 +51,14 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/91967/Documents/rohan/Python/Github Pages/ilovetensor.github.io/posts/post-with-code&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -66,6 +70,7 @@
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="ls" />
+      <command value="cmd" />
     </option>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -77,11 +82,18 @@
       <option name="presentableId" value="Default" />
       <updated>1698080363526</updated>
       <workItem from="1698080366597" duration="9032000" />
-      <workItem from="1698089997412" duration="1996000" />
+      <workItem from="1698089997412" duration="3046000" />
+      <workItem from="1698252794554" duration="468000" />
+      <workItem from="1698253339549" duration="224000" />
+      <workItem from="1698329328158" duration="638000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
   </component>
 </project>
