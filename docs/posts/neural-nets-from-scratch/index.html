@@ -129,7 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">Rohan Sharma</span></a>
+ <span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/ilovetensor" rel="" target=""><i class="bi bi-github" role="img">
@@ -1221,7 +1221,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb33-108"><a href="#cb33-108" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-109"><a href="#cb33-109" aria-hidden="true" tabindex="-1"></a>A **single neuron (or perceptron)** is the basic unit of a neural network... </span>
 <span id="cb33-110"><a href="#cb33-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-111"><a href="#cb33-111" aria-hidden="true" tabindex="-1"></a>It takes <span class="kw">&lt;u&gt;</span>*input*&lt;/u&gt; as &lt;u&gt;*dependent variables*&lt;/u&gt;, multiplies it with the &lt;u&gt;*weights*&lt;/u&gt;, adds the &lt;u&gt;*bais*&lt;/u&gt; , goes through an &lt;u&gt;*activation function*&lt;/u&gt;, and produces the &lt;u&gt;*output*<span class="kw">&lt;/u&gt;</span>. </span>
+<span id="cb33-111"><a href="#cb33-111" aria-hidden="true" tabindex="-1"></a>It takes <span class="kw">&lt;u&gt;</span>*input*&lt;/u&gt; as &lt;u&gt;*dependent variables*&lt;/u&gt;, multiplies it with the &lt;u&gt;*weights*&lt;/u&gt;, adds the &lt;u&gt;*bias*&lt;/u&gt; , goes through an &lt;u&gt;*activation function*&lt;/u&gt;, and produces the &lt;u&gt;*output*<span class="kw">&lt;/u&gt;</span>. </span>
 <span id="cb33-112"><a href="#cb33-112" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-113"><a href="#cb33-113" aria-hidden="true" tabindex="-1"></a>I know what you are thinking now 👀... </span>
 <span id="cb33-114"><a href="#cb33-114" aria-hidden="true" tabindex="-1"></a></span>
@@ -1301,7 +1301,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb33-196"><a href="#cb33-196" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-197"><a href="#cb33-197" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Initialize the weights</span></span>
 <span id="cb33-198"><a href="#cb33-198" aria-hidden="true" tabindex="-1"></a>We have to make a weights tensor that will be used as *coefficients*. </span>
-<span id="cb33-199"><a href="#cb33-199" aria-hidden="true" tabindex="-1"></a>At the start of training, it can be a random valued tensor, we can design a function for this.. To keep it simple initially, we are not using bais term rn.</span>
+<span id="cb33-199"><a href="#cb33-199" aria-hidden="true" tabindex="-1"></a>At the start of training, it can be a random valued tensor, we can design a function for this.. To keep it simple initially, we are not using bias term rn.</span>
 <span id="cb33-200"><a href="#cb33-200" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-201"><a href="#cb33-201" aria-hidden="true" tabindex="-1"></a><span class="in">`torch.rand()`</span> takes the shape of required tensor and generates it </span>
 <span id="cb33-202"><a href="#cb33-202" aria-hidden="true" tabindex="-1"></a></span>
@@ -1317,7 +1317,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb33-216"><a href="#cb33-216" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
 <span id="cb33-217"><a href="#cb33-217" aria-hidden="true" tabindex="-1"></a><span class="co"># c,b = init_coeff(X)</span></span>
 <span id="cb33-218"><a href="#cb33-218" aria-hidden="true" tabindex="-1"></a><span class="co"># print('Coffecients: \n', c[:,0])</span></span>
-<span id="cb33-219"><a href="#cb33-219" aria-hidden="true" tabindex="-1"></a><span class="co"># print('\nBais: ', b)</span></span>
+<span id="cb33-219"><a href="#cb33-219" aria-hidden="true" tabindex="-1"></a><span class="co"># print('\nbias: ', b)</span></span>
 <span id="cb33-220"><a href="#cb33-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb33-221"><a href="#cb33-221" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-222"><a href="#cb33-222" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Calculate Predictions and Loss</span></span>
@@ -1445,7 +1445,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb33-360"><a href="#cb33-360" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-361"><a href="#cb33-361" aria-hidden="true" tabindex="-1"></a>the weights will contain <span class="in">`layer_1`</span> of shape (n_coeff, n_hidden), so it will contain n_hidden set of weights, where the shape of each weight set will be of size n_coeff (input features).</span>
 <span id="cb33-362"><a href="#cb33-362" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-363"><a href="#cb33-363" aria-hidden="true" tabindex="-1"></a>And <span class="in">`layer_2`</span> will have 1 set of weights where the weight set will be of size n_hidden. <span class="in">`const`</span> is the bais term added. </span>
+<span id="cb33-363"><a href="#cb33-363" aria-hidden="true" tabindex="-1"></a>And <span class="in">`layer_2`</span> will have 1 set of weights where the weight set will be of size n_hidden. <span class="in">`const`</span> is the bias term added. </span>
 <span id="cb33-364"><a href="#cb33-364" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-367"><a href="#cb33-367" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb33-368"><a href="#cb33-368" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_coeffs(n_hidden, indep_var):</span>
@@ -1539,7 +1539,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb33-468"><a href="#cb33-468" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb33-469"><a href="#cb33-469" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb33-470"><a href="#cb33-470" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-471"><a href="#cb33-471" aria-hidden="true" tabindex="-1"></a>**Weights Initialization** can contain a <span class="in">`list`</span> of layers size as input and so it will return the coefficients and bais matrix for all layers. </span>
+<span id="cb33-471"><a href="#cb33-471" aria-hidden="true" tabindex="-1"></a>**Weights Initialization** can contain a <span class="in">`list`</span> of layers size as input and so it will return the coefficients and bias matrix for all layers. </span>
 <span id="cb33-472"><a href="#cb33-472" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-475"><a href="#cb33-475" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb33-476"><a href="#cb33-476" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init_coeffs(n_hidden: <span class="bu">list</span>, indep_var):</span>
@@ -1559,11 +1559,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb33-492"><a href="#cb33-492" aria-hidden="true" tabindex="-1"></a>[x.shape <span class="cf">for</span> x <span class="kw">in</span> init_coeffs([<span class="dv">4</span>, <span class="dv">2</span>], X)[<span class="dv">0</span>]]</span>
 <span id="cb33-493"><a href="#cb33-493" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb33-494"><a href="#cb33-494" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-495"><a href="#cb33-495" aria-hidden="true" tabindex="-1"></a>And here we can first layer has 4 perceptrons with 15 weights each, 2nd layer has 2 perceptrons with 4 weights each, output layer has 1 perceptron with 2 weights, and all of the layers have 1 bais term each</span>
+<span id="cb33-495"><a href="#cb33-495" aria-hidden="true" tabindex="-1"></a>And here we can first layer has 4 perceptrons with 15 weights each, 2nd layer has 2 perceptrons with 4 weights each, output layer has 1 perceptron with 2 weights, and all of the layers have 1 bias term each</span>
 <span id="cb33-496"><a href="#cb33-496" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-497"><a href="#cb33-497" aria-hidden="true" tabindex="-1"></a>**Calculating Predictions** requires a slight change, looping over all layers, multiply the input values with weights of each layer. </span>
 <span id="cb33-498"><a href="#cb33-498" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-499"><a href="#cb33-499" aria-hidden="true" tabindex="-1"></a>$$output = input * weights + bais$$</span>
+<span id="cb33-499"><a href="#cb33-499" aria-hidden="true" tabindex="-1"></a>$$output = input * weights + bias$$</span>
 <span id="cb33-500"><a href="#cb33-500" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-503"><a href="#cb33-503" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb33-504"><a href="#cb33-504" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_preds(coeff, indep_var):</span>
@@ -1577,7 +1577,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb33-512"><a href="#cb33-512" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> torch.sigmoid(res)                    <span class="co"># sigmoid for the output layer</span></span>
 <span id="cb33-513"><a href="#cb33-513" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb33-514"><a href="#cb33-514" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-515"><a href="#cb33-515" aria-hidden="true" tabindex="-1"></a>**Updating Coefficients** will simply loop over all coeff and baises and subtracting $graddient * learningRate$</span>
+<span id="cb33-515"><a href="#cb33-515" aria-hidden="true" tabindex="-1"></a>**Updating Coefficients** will simply loop over all coeff and biases and subtracting $graddient * learningRate$</span>
 <span id="cb33-516"><a href="#cb33-516" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-519"><a href="#cb33-519" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb33-520"><a href="#cb33-520" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_coeff(coeff, lr):</span>
