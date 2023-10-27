@@ -23,7 +23,7 @@ Neural Networks from scratch, bridging the gap between the reader's ML knowledge
 
 A few days back I started learning Neural Networks, before that I had a basic knowledge of Machine Learning. 
 So, I think this is the best time to write this article for those who know ML and are hoping to start learning Neural Networks. I have found these techniques useful to learn NN from the mind of a person who knows ML priorly.
-I have explained the concepts in a way that you can relate them with the concepts of ML and it will be a very quick journey for you to learn these concepts quickly and easily. 
+I have explained the concepts in a way that you can relate them with the concepts of ML, and it will be a very quick journey for you to learn these concepts quickly and easily. 
 
 This post will guide you through implementing a basic neurons, then combining those neurons to form layers and finally combining layers to make Neural Networks. 
 
@@ -39,18 +39,20 @@ Here are the steps that we follow in Linear Regression :
 
 
 1. Get a tabular that we want to train.
-2. Saperate the data in two parts, *Independent* and *Dependent Variables*. 
+2. Separate the data in two parts, *Independent* and *Dependent Variables*. 
    $$[x_1^1, x_2^1, x_3^1, x_4^1, x_5^1...] , [y_1]$$
    $$[x_1^2, x_2^2, x_3^2, x_4^2, x_5^2...] , [y_2]$$
    $$[x_1^3, x_2^3, x_3^3, x_4^3, x_5^3...] , [y_3]$$
    $$.....$$
    
-3. The equation to fit the line is ..
+3. The equation to fit the line is …
    
    $$y = mX + b$$
-4. Loss Function used can be root mean square error...
+4. Loss Function used can be root-mean-square error...
    $$RMSE = \sum_{i=1}^{D}(y_i-(mX_i + b))^2$$
-6. Now we find a best-fit line that fits the data with minimum loss. We do this with the help of gradient descent (reducing the loss in every step by modifying the weights)
+5. Now we find a best-fit line that fits the data with minimum loss. We do this with the help of gradient descent (reducing the loss in every step by modifying the weights)
+
+
 
 ```{python}
 #| echo: false
@@ -58,7 +60,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import torch
-import numpy as np
 
 x = np.linspace(0,10,30).reshape(-1,1)
 y = (2*x + 3 + np.random.rand(*x.shape)*10).reshape(-1,1)
@@ -107,7 +108,7 @@ I know what you are thinking now 👀...
 
 1. Huh! It looks the same as Linear Regression Model !!
 
-    😌 Yes, it is just another Linear Regression .. 
+    😌 Yes, it is just another Linear Regression . 
 2. Then what is that *activation function*?
    
     😌 This is something you will get to know in the near future.
@@ -124,7 +125,7 @@ So, Let's implement this using `tensor`
 
 ###  Data Preprocessing (can be skipped)
 
-The data used for this eg is the most famous, Titanic Dataset. Some preprocessing steps are done (you might be familiear with them and so, they can be skipped)
+The data used for this e.g. is the most famous, Titanic Dataset. Some preprocessing steps are done (you might be familiar with them and so, they can be skipped)
 
 ```{python}
 #| code-fold: true
@@ -181,7 +182,7 @@ print(y[0])
 
 #### Initialize the weights
 We have to make a weights tensor that will be used as *coefficients*. 
-At the start of training, it can be a random valued tensor, we can design a function for this.. To keep it simple initially, we are not using bias term rn.
+At the start of training, it can be a random valued tensor, we can design a function for this… To keep it simple initially, we are not using bias term rn.
 
 `torch.rand()` takes the shape of required tensor and generates it 
 
@@ -202,7 +203,7 @@ def init_coeff(indep_var):
 
 #### Calculate Predictions and Loss
 Very similar to Linear Regression, Predictions can be calculated by the *weighted sum* of *features* and *weights*.
-For *loss* we have used *Mean Absolute Error*..
+For *loss*, we have used *Mean Absolute Error…*
 
 Let's make a function for this... 
 
@@ -229,7 +230,7 @@ def update_coeff(coeff, lr):
 ```{mermaid}
 flowchart LR
   A[Random Weight] --> B(Calculate \nLoss)
-  B --> C[Calculate \nGradient] --> D[Modify\n Weights] -- " for n epochs " --> B
+  B --> C(Calculate \nGradient) --> D(Modify\n Weights)-->|for n epochs|B
   D --> E[Final Weights]
 ```
 
@@ -261,7 +262,7 @@ def train_model(n_epochs, lr):
 
 So, We calculate gradients by forward and backward propagation. We first set the `coeff.requires_grad = True` then the loss is calculated for the `coeff`. As coeff requires grad so, this operation will be added in backward graph. And now, when we call `loss.backward()`, it calculates the `.grad` values of all those tensors which requires grad and are in the backward graph. So, the coeff tensor will have its `.grad` value updated. 
 
-Then we update the `coeff` value. While doing this, we dont want this operation to be saved in backward graph so, we keep this modification under `torch.no_grad()` function, and so, this operation is neglected and is not tracked. Next when again loss is calculated and backward fun. called, new grad values gets updated.... and the process carries on.
+Then we update the `coeff` value. While doing this, we don't want this operation to be saved in backward graph so, we keep this modification under `torch.no_grad()` function, and so, this operation is neglected and is not tracked. Next when again loss is calculated and backward fun. called, new grad values gets updated.... and the process carries on.
 
 ```{python}
 coeff = train_model(40,0.1)
@@ -270,7 +271,7 @@ coeff = train_model(40,0.1)
 ### Activation Function 🍭
 
 Here we have used another function `torch.sigmoid()` over the calculated predictions, which is known as **Activation Function!**.
-We know that the weighted sum can produce the values less than 0 or more than 1. But our `y` has values only between 0 and 1. so, to restrict the values, we use the *sigmoid* function... which you might be familiear with if you know Logistic Regression. 
+We know that the weighted sum can produce the values less than 0 or more than 1. But our `y` has values only between 0 and 1. so, to restrict the values, we use the *sigmoid* function... which you might be familiar with if you know Logistic Regression. 
 
 $$\sigma(z) = \frac{1} {1 + e^{-z}}$$
 
@@ -288,7 +289,7 @@ coeff = train_model(40,50)
 
 # Building a Layer of NN 🪵
 
-A single layerd NN will just contain more than one Neurons as the layer. Each neuron will receive all features values and gives an output. The outputs of all the neurons of the layer will passed to output neuron, which will combine them to produce the final output. 
+A single layerd NN will just contain more than one Neurons as the layer. Each neuron will receive all features values and gives an output. The outputs of all the neurons of the layer will be passed to output neuron, which will combine them to produce the final output. 
 
 The first layer neurons will have weights equal to size of input features. The output neuron will contain the weights of size of no. of neurons in first layer. 
 
@@ -339,7 +340,7 @@ coeff = init_coeffs(2, X)
 
 **Calculate Predictions and Loss**
 
-The predictions of hidden layer are calculated by `matmul()` fun for weighted sum by matrix multiplication, the *activation function* used for first layer is **ReLu Activation Function**. It is a more simpler function, which sets any -ve value to 0. 
+The predictions of hidden layer are calculated by `matmul()` fun for weighted sum by matrix multiplication, the *activation function* used for first layer is **ReLu Activation Function**. It is a simpler function, which sets any -ve value to 0. 
 $$Relu(z) = max(0, z)$$
 The output of first layer is given input for second layer and so, is multiplied with layer2 and const term is added. The final output layer uses the **sigmoid** function. 
 No change required in Loss Function
@@ -367,6 +368,7 @@ def update_coeff(coeff, lr):
 
 **Train Function** requires a slight change to give `n_hidden` value as input for init_coeff()
 
+
 ```{python}
 def train_model(n_epochs, lr, n_hidden=2):
     coeff = init_coeffs(n_hidden, X)
@@ -386,9 +388,9 @@ coeff = train_model(40,10)
 
 A complete NN will contain several layers, with different sizes. Each layer will have some perceptrons, and perceptrons of a layer will have weights of size equal to no. of perceptron in previous layer. 
 
-So, there can be any number of neurons in a layer but, they all will receive ouptput of the previous layer and so their weights should match.
+So, there can be any number of neurons in a layer but, they all will receive output of the previous layer and so their weights should match.
 
-For eg, if a neural network has following layers : 
+For eg, if a neural network has the following layers : 
 
 - *Input Layer* - 3 inputs
   
@@ -439,7 +441,7 @@ def init_coeffs(n_hidden: list, indep_var):
 [x.shape for x in init_coeffs([4, 2], X)[0]]
 ```
 
-And here we can first layer has 4 perceptrons with 15 weights each, 2nd layer has 2 perceptrons with 4 weights each, output layer has 1 perceptron with 2 weights, and all of the layers have 1 bias term each
+And here we can first layer has 4 perceptrons with 15 weights each, 2nd layer has 2 perceptrons with 4 weights each, output layer has 1 perceptron with 2 weights, and all the layers have 1 bias term each
 
 **Calculating Predictions** requires a slight change, looping over all layers, multiply the input values with weights of each layer. 
 
@@ -457,7 +459,7 @@ def calc_preds(coeff, indep_var):
     return torch.sigmoid(res)                    # sigmoid for the output layer
 ```
 
-**Updating Coefficients** will simply loop over all coeff and biases and subtracting $graddient * learningRate$
+**Updating Coefficients** will simply loop over all coeff and biases and subtracting $gradient * learningRate$
 
 ```{python}
 def update_coeff(coeff, lr):
