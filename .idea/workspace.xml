@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="717199ef-3a38-4917-83c3-a243b9b688f6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/about.qmd" beforeDir="false" afterPath="$PROJECT_DIR$/about.qmd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/neural-nets-from-scratch/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/posts/neural-nets-from-scratch/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/posts/_metadata.yml" beforeDir="false" afterPath="$PROJECT_DIR$/posts/_metadata.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +82,9 @@
       <workItem from="1698089997412" duration="3046000" />
       <workItem from="1698252794554" duration="468000" />
       <workItem from="1698253339549" duration="224000" />
-      <workItem from="1698329328158" duration="638000" />
+      <workItem from="1698329328158" duration="2059000" />
+      <workItem from="1698421394053" duration="74000" />
+      <workItem from="1698421510225" duration="14000" />
     </task>
     <servers />
   </component>

@@ -100,7 +100,7 @@ print(one_d); print(two_d);
 
 A **single neuron (or perceptron)** is the basic unit of a neural network... 
 
-It takes <u>*input*</u> as <u>*dependent variables*</u>, multiplies it with the <u>*weights*</u>, adds the <u>*bais*</u> , goes through an <u>*activation function*</u>, and produces the <u>*output*</u>. 
+It takes <u>*input*</u> as <u>*dependent variables*</u>, multiplies it with the <u>*weights*</u>, adds the <u>*bias*</u> , goes through an <u>*activation function*</u>, and produces the <u>*output*</u>. 
 
 I know what you are thinking now 👀... 
 
@@ -180,7 +180,7 @@ print(y[0])
 
 #### Initialize the weights
 We have to make a weights tensor that will be used as *coefficients*. 
-At the start of training, it can be a random valued tensor, we can design a function for this.. To keep it simple initially, we are not using bais term rn.
+At the start of training, it can be a random valued tensor, we can design a function for this.. To keep it simple initially, we are not using bias term rn.
 
 `torch.rand()` takes the shape of required tensor and generates it 
 
@@ -196,7 +196,7 @@ def init_coeff(indep_var):
 #| echo: false
 # c,b = init_coeff(X)
 # print('Coffecients: \n', c[:,0])
-# print('\nBais: ', b)
+# print('\nbias: ', b)
 ```
 
 #### Calculate Predictions and Loss
@@ -324,7 +324,7 @@ Finally `Z` is the activation function.
 
 the weights will contain `layer_1` of shape (n_coeff, n_hidden), so it will contain n_hidden set of weights, where the shape of each weight set will be of size n_coeff (input features).
 
-And `layer_2` will have 1 set of weights where the weight set will be of size n_hidden. `const` is the bais term added. 
+And `layer_2` will have 1 set of weights where the weight set will be of size n_hidden. `const` is the bias term added. 
 
 ```{python}
 def init_coeffs(n_hidden, indep_var):
@@ -418,7 +418,7 @@ flowchart LR
   
 ```
 
-**Weights Initialization** can contain a `list` of layers size as input and so it will return the coefficients and bais matrix for all layers. 
+**Weights Initialization** can contain a `list` of layers size as input and so it will return the coefficients and bias matrix for all layers. 
 
 ```{python}
 def init_coeffs(n_hidden: list, indep_var):
@@ -438,11 +438,11 @@ def init_coeffs(n_hidden: list, indep_var):
 [x.shape for x in init_coeffs([4, 2], X)[0]]
 ```
 
-And here we can first layer has 4 perceptrons with 15 weights each, 2nd layer has 2 perceptrons with 4 weights each, output layer has 1 perceptron with 2 weights, and all of the layers have 1 bais term each
+And here we can first layer has 4 perceptrons with 15 weights each, 2nd layer has 2 perceptrons with 4 weights each, output layer has 1 perceptron with 2 weights, and all of the layers have 1 bias term each
 
 **Calculating Predictions** requires a slight change, looping over all layers, multiply the input values with weights of each layer. 
 
-$$output = input * weights + bais$$
+$$output = input * weights + bias$$
 
 ```{python}
 def calc_preds(coeff, indep_var):
@@ -456,7 +456,7 @@ def calc_preds(coeff, indep_var):
     return torch.sigmoid(res)                    # sigmoid for the output layer
 ```
 
-**Updating Coefficients** will simply loop over all coeff and baises and subtracting $graddient * learningRate$
+**Updating Coefficients** will simply loop over all coeff and biases and subtracting $graddient * learningRate$
 
 ```{python}
 def update_coeff(coeff, lr):
