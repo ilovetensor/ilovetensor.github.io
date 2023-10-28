@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "posts/neural-nets-from-scratch/index.html",
+    "href": "posts/neural-nets-from-scratch/index.html",
+    "title": "Neural Networks From Scratch – ML practitioner’s guide",
+    "section": "",
+    "text": "An ideal read for ML practitioners venturing into Neural Networks for the first time. A basic tutorial of implementing Neural Networks from scratch, bridging the gap between the reader’s ML knowledge and the Neural Network concepts. The time is ripe to enhance your ML expertise!\nA few days back I started learning Neural Networks, before that I had a basic knowledge of Machine Learning. So, I think this is the best time to write this article for those who know ML and are hoping to start learning Neural Networks. I have found these techniques useful to learn NN from the mind of a person who knows ML priorly. I have explained the concepts in a way that you can relate them with the concepts of ML, and it will be a very quick journey for you to learn these concepts quickly and easily.\nThis post will guide you through implementing a basic neurons, then combining those neurons to form layers and finally combining layers to make Neural Networks."
+  },
+  {
+    "objectID": "posts/neural-nets-from-scratch/index.html#know-some-tensors",
+    "href": "posts/neural-nets-from-scratch/index.html#know-some-tensors",
+    "title": "Neural Networks From Scratch – ML practitioner’s guide",
+    "section": "Know some Tensors 🍃",
+    "text": "Know some Tensors 🍃\nTensors are a fundamental data structure, very similar to arrays and matrices. A tensor can be represented as a matrix, but also as a vector, a scalar, or a higher-dimensional array.\n\nfrom torch import tensor\n\n\nnp_array = np.array([[2,5,7,2],[2,6,8,3]])\none_d = tensor([1,4,5,6])\ntwo_d = tensor(np_array)\nprint(one_d); print(two_d);\n\ntensor([1, 4, 5, 6])\ntensor([[2, 5, 7, 2],\n        [2, 6, 8, 3]], dtype=torch.int32)\n\n\ntensor are just like numpy arrays and so, there is not much to think about them, lets get to the next big thing…"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Me",
+    "section": "",
+    "text": "ML Practitioner"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ilovetensor",
+    "section": "",
+    "text": "Neural Networks From Scratch – ML practitioner’s guide\n\n\n\n\n\n\n\nDeep Learning\n\n\nNeural Networks\n\n\nPytorch\n\n\n\n\n\n\n\n\n\n\n\nOct 24, 2023\n\n\nRohan Sharma\n\n\n\n\n\n\nNo matching items"
+  }
+]
