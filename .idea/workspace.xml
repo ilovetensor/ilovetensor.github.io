@@ -5,44 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="717199ef-3a38-4917-83c3-a243b9b688f6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_freeze/posts/neural-nets-from-scratch/index/execute-results/html.json" beforeDir="false" afterPath="$PROJECT_DIR$/_freeze/posts/neural-nets-from-scratch/index/execute-results/html.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_freeze/posts/neural-nets-from-scratch/index/figure-html/fig-limit-output-1.png" beforeDir="false" afterPath="$PROJECT_DIR$/_freeze/posts/neural-nets-from-scratch/index/figure-html/fig-limit-output-1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/.nojekyll" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/about.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/listings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/neural-nets-from-scratch/img.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/neural-nets-from-scratch/img_nn.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/neural-nets-from-scratch/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/posts/neural-nets-from-scratch/index_files/figure-html/fig-limit-output-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/profile.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/search.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/bootstrap/bootstrap-dark.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/bootstrap/bootstrap-icons.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/bootstrap/bootstrap-icons.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/bootstrap/bootstrap.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/bootstrap/bootstrap.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/clipboard/clipboard.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-diagram/mermaid-init.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-diagram/mermaid.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-diagram/mermaid.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-html/anchor.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-html/popper.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-html/quarto-syntax-highlighting-dark.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-html/quarto-syntax-highlighting.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-html/quarto.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-html/tippy.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-html/tippy.umd.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-listing/list.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-listing/quarto-listing.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-nav/headroom.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-nav/quarto-nav.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-search/autocomplete.umd.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-search/fuse.min.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/site_libs/quarto-search/quarto-search.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/styles.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/posts/neural-nets-from-scratch/index.qmd" beforeDir="false" afterPath="$PROJECT_DIR$/posts/neural-nets-from-scratch/index.qmd" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,23 +46,23 @@
     <option name="sortByType" value="true" />
     <option name="sortKey" value="BY_TYPE" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/91967/Documents/rohan/Python/Github Pages/ilovetensor.github.io/dws",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/91967/Documents/rohan/Python/Github Pages/ilovetensor.github.io/dws&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\91967\Documents\rohan\Python\Github Pages\ilovetensor.github.io\dws" />
@@ -132,7 +96,8 @@
       <workItem from="1698421394053" duration="74000" />
       <workItem from="1698421510225" duration="14000" />
       <workItem from="1698431330760" duration="133000" />
-      <workItem from="1698431548587" duration="4307000" />
+      <workItem from="1698431548587" duration="4993000" />
+      <workItem from="1698486603755" duration="125000" />
     </task>
     <servers />
   </component>
